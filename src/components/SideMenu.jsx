@@ -108,7 +108,7 @@ function MenuItems(props) {
           >
             <SideMenuItem
               title="지역코드"
-              to="/common-code"
+              to="/area-code"
               icon={<IoCodeWorkingSharp size={20} />}
               selected={props.activeItem}
               setSelected={props.setActiveItem}

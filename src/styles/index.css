@@ -54,6 +54,7 @@
   transition: all 0.3s;
   padding: 10px;
   width: calc(100% - 18em);
+  min-height: 90vh;
 }
 
 .small-content {

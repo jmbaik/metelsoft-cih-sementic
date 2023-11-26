@@ -12,7 +12,7 @@ import Layout from '../components/Layout';
 import Error from '../pages/etc/Error';
 import AreaCode from '../pages/admin/AreaCode';
 import GridTest from '../pages/etc/GridTest';
-import ChurchRegister from '../pages/admin/ChurchRegister';
+import ChurchList from '../pages/admin/ChurchList';
 
 export default function MRoutes() {
   return (
@@ -33,7 +33,7 @@ export default function MRoutes() {
           <Route path="/not-work" element={<NotServicePage />} />
           <Route path="/youtube-pastor" element={<YoutubePastor />} />
           <Route path="/area-code" element={<AreaCode />} />
-          <Route path="/church-code" element={<ChurchRegister />} />
+          <Route path="/church-code" element={<ChurchList cr="r" />} />
           <Route path="/grid-test" element={<GridTest />} />
         </Route>
         <Route path="/login" element={<Login />} />

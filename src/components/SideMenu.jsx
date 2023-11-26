@@ -116,7 +116,7 @@ function MenuItems(props) {
             />
             <SideMenuItem
               title="교회코드관리"
-              to="/common-code"
+              to="/church-code"
               icon={<MdOutlineChurch size={20} />}
               selected={props.activeItem}
               setSelected={props.setActiveItem}
@@ -197,6 +197,14 @@ function MenuItems(props) {
             <SideMenuItem
               title="Youtube CCM Shorts"
               to="/not-work"
+              icon={<SiYoutubeshorts size={20} />}
+              selected={props.activeItem}
+              setSelected={props.setActiveItem}
+              smallMenu={props.smallMenu}
+            />
+            <SideMenuItem
+              title="Grid Test"
+              to="/grid-test"
               icon={<SiYoutubeshorts size={20} />}
               selected={props.activeItem}
               setSelected={props.setActiveItem}

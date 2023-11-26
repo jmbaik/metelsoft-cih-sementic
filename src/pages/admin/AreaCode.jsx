@@ -1,28 +1,17 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 import DataGrid from 'react-data-grid';
 import { useFetchAreaCode } from './../../api/commonCodeApi';
-import {
-  Breadcrumb,
-  Container,
-  Divider,
-  Header,
-  Segment,
-} from 'semantic-ui-react';
-
-const columns = [
-  { key: 'areaCode', name: 'Area Code' },
-  {
-    key: 'name',
-    name: '지역명',
-  },
-  {
-    key: 'aliasCode',
-    name: 'Alias',
-  },
-];
+import { Breadcrumb, Header } from 'semantic-ui-react';
+import MAgGrid from '../../components/MAgGrid';
 
 export default function AreaCode() {
+  const columns = [
+    { field: 'areaCode', headerName: 'Area Code' },
+    { field: 'name', headerName: '지역명' },
+    { field: 'aliasCode', headerName: 'Alias' },
+  ];
+
   const { data } = useFetchAreaCode();
   return (
     // <Container fluid>
@@ -36,12 +25,7 @@ export default function AreaCode() {
         <Breadcrumb.Section active>Personal Information</Breadcrumb.Section>
       </Breadcrumb>
       <Header as="h2">지역 코드</Header>
-      <DataGrid
-        className="rdg-light"
-        columns={columns}
-        rows={data ?? []}
-        rowHeight={30}
-      />
+      <MAgGrid columns={columns} rows={data} width={'800px'} height={'800px'} />
     </>
     // </Container>
   );

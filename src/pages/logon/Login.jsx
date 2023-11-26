@@ -53,7 +53,7 @@ export default function Login() {
   useEffect(() => {
     if (user?.name) {
       setTimeout(() => {
-        navigator('/dashboard');
+        navigator('/home');
       }, 1000);
     }
   }, [user, navigator]);

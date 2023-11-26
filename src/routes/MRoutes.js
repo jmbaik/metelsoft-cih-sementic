@@ -11,6 +11,8 @@ import ProtectedRoute from './ProtectedRoute';
 import Layout from '../components/Layout';
 import Error from '../pages/etc/Error';
 import AreaCode from '../pages/admin/AreaCode';
+import GridTest from '../pages/etc/GridTest';
+import ChurchRegister from '../pages/admin/ChurchRegister';
 
 export default function MRoutes() {
   return (
@@ -31,6 +33,8 @@ export default function MRoutes() {
           <Route path="/not-work" element={<NotServicePage />} />
           <Route path="/youtube-pastor" element={<YoutubePastor />} />
           <Route path="/area-code" element={<AreaCode />} />
+          <Route path="/church-code" element={<ChurchRegister />} />
+          <Route path="/grid-test" element={<GridTest />} />
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="*" element={<Error />} />

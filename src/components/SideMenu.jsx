@@ -1,14 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Accordion,
-  Divider,
-  Form,
-  Header,
-  Icon,
-  Input,
-  Menu,
-} from 'semantic-ui-react';
-import TextIcon from '../bundle/TextIcon';
+import { Menu } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { activeSideItemState, smallMenuState } from '../atoms/GlobalState';
@@ -21,7 +12,6 @@ import { MdOutlineChurch } from 'react-icons/md';
 import { FiUsers } from 'react-icons/fi';
 import { GrChannel } from 'react-icons/gr';
 import { RiUserStarLine } from 'react-icons/ri';
-import { GrGrow } from 'react-icons/gr';
 import { FaYoutube } from 'react-icons/fa';
 import { GiPublicSpeaker } from 'react-icons/gi';
 import { GiWinterGloves } from 'react-icons/gi';

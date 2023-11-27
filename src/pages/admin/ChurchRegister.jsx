@@ -1,24 +1,71 @@
 import React from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import {
   Button,
   Form,
   Input,
+  Label,
+  LabelDetail,
   Segment,
-  Select,
   TextArea,
 } from 'semantic-ui-react';
-
-const genderOptions = [
-  { key: 'm', text: 'Male', value: 'male' },
-  { key: 'f', text: 'Female', value: 'female' },
-  { key: 'o', text: 'Other', value: 'other' },
-];
+import { useFetchAreaCode } from '../../api/commonCodeApi';
+import Select from 'react-select';
+import { render } from '@testing-library/react';
 
 export default function ChurchRegister() {
+  const { register, handleSubmit, setValue, formState, ref, control } = useForm(
+    {
+      mode: 'onSubmit',
+      defaultValues: {
+        areaCode: '',
+        churchCode: '',
+        name: '',
+        comment: '',
+      },
+    }
+  );
+  const { errors } = formState;
+  const { data: areaData } = useFetchAreaCode();
+
+  // console.log(areaData);
   return (
     <Segment>
       <Form>
+        <Form.Field>
+          <Select inputId="areaCode" size="small" options={areaData ?? []} />
+        </Form.Field>
+        <Form.Field>
+          <Controller
+            control={control}
+            name="areaCode"
+            render={({ field: { onChange, value, ref } }) => {
+              <Select
+                inputId="areaCode"
+                options={areaData ?? []}
+                ref={ref}
+                value={areaData?.find((option) => option.areaCode === value)}
+                onChange={(option) => onChange(option.areaCode)}
+              />;
+            }}
+          />
+        </Form.Field>
         <Form.Group widths="equal">
+          <Form.Field error={!!errors.password}>
+            <label>Password</label>
+            <Input
+              fluid
+              type="password"
+              name="password"
+              icon="lock"
+              size="small"
+              iconPosition="left"
+              placeholder="Password"
+              {...register('password', {
+                required: true,
+              })}
+            />
+          </Form.Field>
           <Form.Field
             id="form-input-control-first-name"
             control={Input}
@@ -31,7 +78,7 @@ export default function ChurchRegister() {
             label="Last name"
             placeholder="Last name"
           />
-          <Form.Field
+          {/* <Form.Field
             control={Select}
             options={genderOptions}
             label={{
@@ -41,7 +88,7 @@ export default function ChurchRegister() {
             placeholder="Gender"
             search
             searchInput={{ id: 'form-select-control-gender' }}
-          />
+          /> */}
         </Form.Group>
         <Form.Field
           id="form-textarea-control-opinion"
@@ -49,6 +96,19 @@ export default function ChurchRegister() {
           label="Opinion"
           placeholder="Opinion"
         />
+        {/* <Form.Field error={!!errors.password}>
+              <Input
+                fluid
+                type="password"
+                name="password"
+                icon="lock"
+                iconPosition="left"
+                placeholder="Password"
+                {...register('password', {
+                  required: true,
+                })}
+              />
+            </Form.Field> */}
         <Form.Field
           id="form-input-control-error-email"
           control={Input}

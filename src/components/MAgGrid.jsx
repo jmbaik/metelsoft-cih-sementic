@@ -3,7 +3,13 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import { AgGridReact } from 'ag-grid-react';
 
-export default function MAgGrid({ rows, columns, width, height }) {
+export default function MAgGrid({
+  rows,
+  columns,
+  width,
+  height,
+  onDoubleClicked,
+}) {
   const gridRef = useRef();
   const onFirstDataRendered = useCallback(
     (params) => {
@@ -19,6 +25,13 @@ export default function MAgGrid({ rows, columns, width, height }) {
       document.getElementById('filter-text-box').value
     );
   }, []);
+
+  const onRowDoubleClicked = useCallback(
+    (e) => {
+      onDoubleClicked(e.data);
+    },
+    [onDoubleClicked]
+  );
 
   return (
     <div style={{ height: height, width: width }}>
@@ -48,6 +61,7 @@ export default function MAgGrid({ rows, columns, width, height }) {
             rowHeight={30}
             headerHeight={30}
             onFirstDataRendered={onFirstDataRendered}
+            onRowDoubleClicked={onRowDoubleClicked}
           ></AgGridReact>
         </div>
       </div>

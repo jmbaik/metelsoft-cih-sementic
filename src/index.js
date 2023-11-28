@@ -9,7 +9,15 @@ import './styles/index.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { RecoilRoot } from 'recoil';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: false,
+      staleTime: 30000,
+    },
+  },
+});
 
 const styleLink = document.createElement('link');
 styleLink.rel = 'stylesheet';

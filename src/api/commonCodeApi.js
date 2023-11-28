@@ -2,7 +2,7 @@ import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 import apiFetch from '../bundle/axios';
 
 export const useFetchAreaCode = () => {
-  const { isLoading, data, isError, error } = useQuery({
+  const { isLoading, data, isError, error, refetch } = useQuery({
     queryKey: ['common-code/area-code-list'],
     queryFn: async () => {
       const response = await apiFetch.get('/common-code/area-code');
@@ -10,11 +10,11 @@ export const useFetchAreaCode = () => {
     },
     keepPreviousData: true,
   });
-  return { data, isLoading, isError, error };
+  return { data, isLoading, isError, error, refetch };
 };
 
 export const useFetchChurchCode = () => {
-  const { isLoading, data, isError, error } = useQuery({
+  const { isLoading, data, isError, error, refetch } = useQuery({
     queryKey: ['common-code/church-code-list'],
     queryFn: async () => {
       const response = await apiFetch.get('/common-code/church-code');
@@ -22,7 +22,7 @@ export const useFetchChurchCode = () => {
     },
     keepPreviousData: true,
   });
-  return { data, isLoading, isError, error };
+  return { data, isLoading, isError, error, refetch };
 };
 
 export const useSaveChurchCode = () => {

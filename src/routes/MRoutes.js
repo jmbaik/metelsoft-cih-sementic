@@ -13,6 +13,8 @@ import Error from '../pages/etc/Error';
 import AreaCode from '../pages/admin/AreaCode';
 import GridTest from '../pages/etc/GridTest';
 import ChurchList from '../pages/admin/ChurchList';
+import FromTest from '../pages/etc/FromTest';
+import PastorList from '../pages/admin/PastorList';
 
 export default function MRoutes() {
   return (
@@ -34,7 +36,9 @@ export default function MRoutes() {
           <Route path="/youtube-pastor" element={<YoutubePastor />} />
           <Route path="/area-code" element={<AreaCode />} />
           <Route path="/church-code" element={<ChurchList cr="r" />} />
+          <Route path="/pastor-code" element={<PastorList cr="r" />} />
           <Route path="/grid-test" element={<GridTest />} />
+          <Route path="/form-test" element={<FromTest />} />
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="*" element={<Error />} />

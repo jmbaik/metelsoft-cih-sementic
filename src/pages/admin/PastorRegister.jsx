@@ -1,41 +1,57 @@
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { Button, Form, Input, Segment, TextArea } from 'semantic-ui-react';
-import { useFetchAreaCode, useSaveChurchCode } from '../../api/commonCodeApi';
+import { useFetchChurchCode, useSavePastor } from '../../api/commonCodeApi';
+import {
+  Button,
+  Form,
+  Input,
+  Segment,
+  Select,
+  TextArea,
+} from 'semantic-ui-react';
 import MAutocomplete from '../../components/MAutocomplete';
 
-export default function ChurchRegister(props) {
+export default function PastorRegister(props) {
   const { register, handleSubmit, setValue, formState, control } = useForm({
     mode: 'onSubmit',
     defaultValues: {
-      areaCode: '',
+      pastorCode: '',
       churchCode: '',
+      grade: '',
       name: '',
       comment: '',
+      pic: '',
     },
   });
   const { errors } = formState;
-
-  const { data: areaData, refetch: refetchAreaData } = useFetchAreaCode();
-  const { mutateSaveChurch, saveChurchLoading } = useSaveChurchCode();
 
   const toList = (read) => {
     props.upperFn(read);
   };
 
+  const { data: churchData, refetch: refetchChurchData } = useFetchChurchCode();
+  const { mutateSavePastor, savePastorLoading } = useSavePastor();
+
   const onSubmit = (data) => {
     const reqData = { ...data, userId: 'admin' };
-    if (data?.areaCode === '') {
-      alert('AreaCode is not filled');
+    if (data?.churchCode === '') {
+      alert('ChurchCode is not filled');
       return;
     }
     console.log(reqData);
-    mutateSaveChurch(reqData, {
+    mutateSavePastor(reqData, {
       onSuccess: () => {
         toList('r');
       },
     });
   };
+
+  const gradeList = [
+    { key: '', value: '', text: '-선택' },
+    { key: 'P', value: 'P', text: '목사' },
+    { key: 'M', value: 'M', text: '선교사' },
+    { key: 'E', value: 'E', text: '장로' },
+  ];
 
   useEffect(() => {
     if (props.crud === 'e') {
@@ -48,40 +64,54 @@ export default function ChurchRegister(props) {
 
   useEffect(() => {
     if (props.crud === 'e') {
-      refetchAreaData();
+      refetchChurchData();
     }
-  }, [props.crud, refetchAreaData]);
+  }, [props.crud, refetchChurchData]);
 
-  if (saveChurchLoading) return <h3>save process Loading...</h3>;
+  if (savePastorLoading) return <h3>save process Loading...</h3>;
   return (
     <Segment>
       <Form onSubmit={handleSubmit(onSubmit)} noValidate>
         <Form.Group widths="equal">
           <Form.Field>
-            <label>지역 코드</label>
+            <label>교회 선택</label>
             <MAutocomplete
               control={control}
-              data={areaData}
-              val="aliasCode"
-              name="areaCode"
+              data={churchData}
+              val="churchCode"
+              name="churchCode"
               labelFunc={(x) => x.name}
             />
           </Form.Field>
           <Form.Field>
-            <label style={{ color: '#ccc' }}>교회 코드</label>
+            <label style={{ color: '#aaa' }}>목사님 코드</label>
             <Input
               fluid
               type="text"
-              name="churchCode"
+              name="pastorCode"
               size="small"
+              style={{ color: 'black' }}
               disabled
-              placeholder="ChurchCode"
-              {...register('churchCode')}
+              placeholder="pastorCode"
+              {...register('pastorCode')}
             />
           </Form.Field>
         </Form.Group>
+        <Form.Field error={!!errors.grade}>
+          <label>Grade</label>
+          <Select
+            fluid
+            options={gradeList}
+            name="grade"
+            size="small"
+            placeholder="Grade"
+            {...register('grade', {
+              required: true,
+            })}
+          />
+        </Form.Field>
         <Form.Field error={!!errors.name}>
-          <label>교회명</label>
+          <label>목사님 이름</label>
           <Input
             fluid
             type="text"

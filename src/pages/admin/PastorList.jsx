@@ -1,36 +1,57 @@
 import React, { useEffect, useState } from 'react';
+import { useFetchChurchCode, useFetchPastor } from '../../api/commonCodeApi';
 import { Button, Container, Header } from 'semantic-ui-react';
 import MBreadcrumb from '../../components/MBreadcrumb';
-import { useFetchChurchCode } from '../../api/commonCodeApi';
 import MAgGrid from '../../components/MAgGrid';
 import ChurchRegister from './ChurchRegister';
+import PastorRegister from './PastorRegister';
 
 const columns = [
+  {
+    field: 'pastorCode',
+    headerName: 'Pastor Code',
+  },
   {
     field: 'churchCode',
     headerName: '교회 코드',
     sortable: true,
   },
   {
-    field: 'name',
+    field: 'churchName',
     headerName: '교회명',
     sortable: true,
   },
   {
+    field: 'grade',
+    headerName: 'Grade',
+    sortable: true,
+  },
+  {
+    field: 'name',
+    headerName: '목사님',
+    sortable: true,
+  },
+  {
     field: 'comment',
-    headerName: '설명',
+    hide: true,
   },
   {
     field: 'pic',
-    headerName: 'Picture',
+    headerName: 'Pic',
   },
   {
-    field: 'areaCode',
-    hide: true,
+    field: 'updId',
+    headerName: '최종수정자',
+    sortable: true,
+  },
+  {
+    field: 'updDt',
+    headerName: '최종수정일',
+    sortable: true,
   },
 ];
 
-export default function ChurchList({ cr }) {
+export default function PastorList({ cr }) {
   const [crud, setCrud] = useState('r');
   const [editParams, setEditParams] = useState({});
 
@@ -51,7 +72,7 @@ export default function ChurchList({ cr }) {
     console.log(param);
   }
 
-  const { isLoading, data, isError, error } = useFetchChurchCode();
+  const { isLoading, data, isError, error } = useFetchPastor();
 
   if (isLoading) return <h3>Loading...</h3>;
   if (isError) return <h3>{error.message}</h3>;
@@ -64,7 +85,7 @@ export default function ChurchList({ cr }) {
         third={'Church Code'}
       />
       <Header as="h2" dividing>
-        교회 코드
+        목사님 등록
       </Header>
       <div
         style={{
@@ -100,7 +121,7 @@ export default function ChurchList({ cr }) {
         />
       )}
       {(crud === 'c' || crud === 'e') && (
-        <ChurchRegister upperFn={fnSub} params={editParams} crud={crud} />
+        <PastorRegister upperFn={fnSub} params={editParams} crud={crud} />
       )}
     </Container>
   );

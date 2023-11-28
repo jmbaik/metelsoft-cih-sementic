@@ -114,7 +114,7 @@ function MenuItems(props) {
             />
             <SideMenuItem
               title="목사님 등록"
-              to="/common-code"
+              to="/pastor-code"
               icon={<IoIosPersonAdd size={20} />}
               selected={props.activeItem}
               setSelected={props.setActiveItem}
@@ -193,9 +193,9 @@ function MenuItems(props) {
               smallMenu={props.smallMenu}
             />
             <SideMenuItem
-              title="Grid Test"
-              to="/grid-test"
-              icon={<SiYoutubeshorts size={20} />}
+              title="Form Test"
+              to="/form-test"
+              icon={<IoCodeWorkingSharp size={20} />}
               selected={props.activeItem}
               setSelected={props.setActiveItem}
               smallMenu={props.smallMenu}

@@ -24,7 +24,13 @@ export default function AreaCode() {
         <Breadcrumb.Section active>Local Area Code</Breadcrumb.Section>
       </Breadcrumb>
       <Header as="h2">지역 코드</Header>
-      <MAgGrid columns={columns} rows={data} width={'100%'} height={'80vh'} />
+      <MAgGrid
+        columns={columns}
+        rows={data}
+        width={'100%'}
+        height={'80vh'}
+        onDoubleClicked={() => {}}
+      />
     </>
     // </Container>
   );

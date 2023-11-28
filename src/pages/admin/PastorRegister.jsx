@@ -77,7 +77,7 @@ export default function PastorRegister(props) {
             <label>교회 선택</label>
             <MAutocomplete
               control={control}
-              data={churchData}
+              data={churchData || []}
               val="churchCode"
               name="churchCode"
               labelFunc={(x) => x.name}

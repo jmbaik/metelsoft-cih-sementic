@@ -61,7 +61,7 @@ export default function ChurchRegister(props) {
             <label>지역 코드</label>
             <MAutocomplete
               control={control}
-              data={areaData}
+              data={areaData || []}
               val="aliasCode"
               name="areaCode"
               labelFunc={(x) => x.name}

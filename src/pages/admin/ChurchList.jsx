@@ -95,7 +95,7 @@ export default function ChurchList({ cr }) {
           columns={columns}
           rows={data}
           width={'100%'}
-          height={'77vh'}
+          height={'70vh'}
           onDoubleClicked={doubleClicked}
         />
       )}

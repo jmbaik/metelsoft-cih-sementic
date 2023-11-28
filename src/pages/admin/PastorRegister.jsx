@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useFetchChurchCode, useSavePastor } from '../../api/commonCodeApi';
 import {
   Button,
+  Dropdown,
   Form,
   Input,
   Segment,
@@ -10,19 +11,21 @@ import {
   TextArea,
 } from 'semantic-ui-react';
 import MAutocomplete from '../../components/MAutocomplete';
+import MSelect from '../../components/MSelect';
 
 export default function PastorRegister(props) {
-  const { register, handleSubmit, setValue, formState, control } = useForm({
-    mode: 'onSubmit',
-    defaultValues: {
-      pastorCode: '',
-      churchCode: '',
-      grade: '',
-      name: '',
-      comment: '',
-      pic: '',
-    },
-  });
+  const { register, handleSubmit, setValue, formState, control, getValues } =
+    useForm({
+      mode: 'onSubmit',
+      defaultValues: {
+        pastorCode: '',
+        churchCode: '',
+        grade: '',
+        name: '',
+        comment: '',
+        pic: '',
+      },
+    });
   const { errors } = formState;
 
   const toList = (read) => {
@@ -98,16 +101,11 @@ export default function PastorRegister(props) {
           </Form.Field>
         </Form.Group>
         <Form.Field error={!!errors.grade}>
-          <label>Grade</label>
-          <Select
-            fluid
-            options={gradeList}
+          <MSelect
+            control={control}
+            data={gradeList}
             name="grade"
-            size="small"
-            placeholder="Grade"
-            {...register('grade', {
-              required: true,
-            })}
+            required={true}
           />
         </Form.Field>
         <Form.Field error={!!errors.name}>

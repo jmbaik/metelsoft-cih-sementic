@@ -96,7 +96,7 @@ export default function ChurchList({ cr }) {
           <MAgGrid
             columns={columns}
             rows={data}
-            width={'100%'}
+            width={'900px'}
             height={'70vh'}
             onDoubleClicked={doubleClicked}
           />

@@ -1,14 +1,22 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import apiFetch from '../bundle/axios';
 
-export const useFetchYoutubePastor = (params) => {
+export const useFetchYoutubePastor = (p) => {
+  console.log('pastor param', p);
   const { isLoading, data, isError, error } = useQuery({
-    queryKey: ['youtube/pastor', params],
-    queryFn: async (params) => {
-      const response = await apiFetch.get('/youtube/pastor', params);
+    queryKey: ['youtube/pastor', p],
+    // get방식일 경우 async인자에 params 인자를 넣어면 안된다.
+    queryFn: async () => {
+      const response = await apiFetch.get('/youtube/pastor', {
+        params: {
+          options: p.options,
+          keyword: p.keyword,
+        },
+      });
       return response.data.result;
     },
     keepPreviousData: true,
+    enabled: !!p,
   });
   return { data, isLoading, isError, error };
 };

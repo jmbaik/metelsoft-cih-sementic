@@ -2,21 +2,25 @@ import React, { useCallback, useRef, useState } from 'react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import { AgGridReact } from 'ag-grid-react';
+import { useRecoilValue } from 'recoil';
+import { smallMenuState } from '../atoms/GlobalState';
 
 export default function MAgGrid({
   rows,
   columns,
   width,
   height,
+  rowHeight,
   onDoubleClicked,
+  isAutoSizeColumn = true,
 }) {
+  const smallMenu = useRecoilValue(smallMenuState);
+
   const gridRef = useRef();
-  const onFirstDataRendered = useCallback(
-    (params) => {
-      gridRef.current.api.sizeColumnsToFit();
-    },
-    [gridRef]
-  );
+
+  const onFirstDataRendered = useCallback(() => {
+    if (isAutoSizeColumn) gridRef.current.api.sizeColumnsToFit();
+  }, [isAutoSizeColumn, gridRef]);
 
   const [columnDefs] = useState(columns);
 
@@ -33,19 +37,29 @@ export default function MAgGrid({
     [onDoubleClicked]
   );
 
+  console.log('smallMenu', smallMenu);
+
   return (
     <div style={{ height: height, width: width }}>
       <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
         <div style={{ fontSize: '13px', marginBottom: '5px' }}>
-          <span style={{ color: '#777' }}>
-            &nbsp;&nbsp;&nbsp;ALL FINDER : &nbsp;&nbsp;&nbsp;
-          </span>
+          {/* <span style={{ color: '#777' }}>
+            &nbsp;&nbsp;&nbsp;All Finder : &nbsp;&nbsp;&nbsp;
+          </span> */}
           <input
             type="text"
             id="filter-text-box"
-            placeholder="Filter..."
+            placeholder="Search any words ..."
             onInput={onFilterTextBoxChanged}
-            style={{ width: '200px', borderColor: '#eee' }}
+            style={{
+              width: '300px',
+              height: '24px',
+              borderColor: 'rgba(34,36,38,.15)',
+              borderWidth: '1px',
+              borderRadius: '2px',
+              padding: '5px',
+              margin: '0',
+            }}
           />
         </div>
 
@@ -62,6 +76,7 @@ export default function MAgGrid({
             headerHeight={30}
             onFirstDataRendered={onFirstDataRendered}
             onRowDoubleClicked={onRowDoubleClicked}
+            {...(rowHeight ? { rowHeight: rowHeight } : {})}
           ></AgGridReact>
         </div>
       </div>

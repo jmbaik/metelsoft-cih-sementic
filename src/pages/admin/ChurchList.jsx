@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Container, Header } from 'semantic-ui-react';
+import { Button, Container, Header, Segment } from 'semantic-ui-react';
 import MBreadcrumb from '../../components/MBreadcrumb';
 import { useFetchChurchCode } from '../../api/commonCodeApi';
 import MAgGrid from '../../components/MAgGrid';
@@ -77,6 +77,7 @@ export default function ChurchList({ cr }) {
       >
         <Button
           basic
+          primary
           content={crud === 'r' ? '등록' : '목록'}
           size="tiny"
           icon={crud === 'r' ? 'right arrow' : 'left arrow'}
@@ -91,13 +92,15 @@ export default function ChurchList({ cr }) {
         />
       </div>
       {crud === 'r' && (
-        <MAgGrid
-          columns={columns}
-          rows={data}
-          width={'100%'}
-          height={'70vh'}
-          onDoubleClicked={doubleClicked}
-        />
+        <Segment>
+          <MAgGrid
+            columns={columns}
+            rows={data}
+            width={'100%'}
+            height={'70vh'}
+            onDoubleClicked={doubleClicked}
+          />
+        </Segment>
       )}
       {(crud === 'c' || crud === 'e') && (
         <ChurchRegister upperFn={fnSub} params={editParams} crud={crud} />

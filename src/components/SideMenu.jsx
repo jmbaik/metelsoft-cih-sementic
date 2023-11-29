@@ -138,7 +138,7 @@ function MenuItems(props) {
           >
             <SideMenuItem
               title="채널 조회"
-              to="/youtube-pastor"
+              to="/youtube-channel"
               icon={<GrChannel size={20} />}
               selected={props.activeItem}
               setSelected={props.setActiveItem}

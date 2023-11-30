@@ -10,19 +10,22 @@ const columns = [
     field: 'churchCode',
     headerName: '교회 코드',
     sortable: true,
+    width: 150,
   },
   {
     field: 'name',
     headerName: '교회명',
     sortable: true,
-  },
-  {
-    field: 'comment',
-    headerName: '설명',
+    width: 300,
   },
   {
     field: 'pic',
     headerName: 'Picture',
+    width: 200,
+  },
+  {
+    field: 'comment',
+    headerName: '설명',
   },
   {
     field: 'areaCode',
@@ -91,9 +94,10 @@ export default function ChurchList({ cr }) {
           <MAgGrid
             columns={columns}
             rows={data}
-            width={'900px'}
+            width={'100%'}
             height={'70vh'}
             onDoubleClicked={doubleClicked}
+            isAutoSizeColumn={false}
           />
         </Segment>
       )}

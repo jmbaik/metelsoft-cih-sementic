@@ -9,25 +9,30 @@ const columns = [
   {
     field: 'pastorCode',
     headerName: 'Pastor Code',
+    width: 120,
   },
   {
     field: 'churchCode',
     headerName: '교회 코드',
+    width: 120,
     sortable: true,
   },
   {
     field: 'churchName',
     headerName: '교회명',
+    width: 200,
     sortable: true,
   },
   {
     field: 'grade',
     headerName: 'Grade',
+    width: 100,
     sortable: true,
   },
   {
     field: 'name',
     headerName: '목사님',
+    width: 150,
     sortable: true,
   },
   {
@@ -37,15 +42,18 @@ const columns = [
   {
     field: 'pic',
     headerName: 'Pic',
+    width: 100,
   },
   {
     field: 'updId',
     headerName: '최종수정자',
+    width: 120,
     sortable: true,
   },
   {
     field: 'updDt',
     headerName: '최종수정일',
+    width: 150,
     sortable: true,
   },
 ];

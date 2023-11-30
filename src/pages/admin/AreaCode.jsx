@@ -31,6 +31,7 @@ export default function AreaCode() {
           width={'100%'}
           height={'80vh'}
           onDoubleClicked={() => {}}
+          isAutoSizeColumn={false}
         />
       </Segment>
     </>

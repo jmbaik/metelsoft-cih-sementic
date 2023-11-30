@@ -103,13 +103,13 @@ const columns = [
     field: 'grade',
     headerName: 'G',
     sortable: true,
-    width: 50,
+    width: 80,
   },
   {
     field: 'sort',
     headerName: 'S',
     sortable: true,
-    width: 50,
+    width: 80,
   },
 ];
 

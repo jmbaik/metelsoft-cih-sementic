@@ -42,3 +42,26 @@ export const useSaveYoutubeSearchByVid = () => {
     });
   return { mutateSaveYoutubeSearch, isLoadingYoutubeSearch };
 };
+
+export const useDeleteYoutubePastor = () => {
+  const QueryClient = useQueryClient();
+  const {
+    mutate: mutateDeleteYoutubePastor,
+    isLoading: isLoadingDeleteYoutubePastor,
+  } = useMutation({
+    mutationFn: async (params) => {
+      console.log('Youtube pastor delete useDeleteYoutubePastor');
+      const response = await apiFetch.post('/youtube/pastor-delete', params);
+      return response.data.result;
+    },
+    onSuccess: () => {
+      QueryClient.invalidateQueries({
+        queryKey: ['youtube/pastor'],
+      });
+    },
+    onError: (err) => {
+      console.log(err);
+    },
+  });
+  return { mutateDeleteYoutubePastor, isLoadingDeleteYoutubePastor };
+};

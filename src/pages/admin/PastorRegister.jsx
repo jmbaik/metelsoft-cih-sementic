@@ -1,31 +1,22 @@
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useFetchChurchCode, useSavePastor } from '../../api/commonCodeApi';
-import {
-  Button,
-  Dropdown,
-  Form,
-  Input,
-  Segment,
-  Select,
-  TextArea,
-} from 'semantic-ui-react';
+import { Button, Form, Input, Segment, TextArea } from 'semantic-ui-react';
 import MAutocomplete from '../../components/MAutocomplete';
 import MSelect from '../../components/MSelect';
 
 export default function PastorRegister(props) {
-  const { register, handleSubmit, setValue, formState, control, getValues } =
-    useForm({
-      mode: 'onSubmit',
-      defaultValues: {
-        pastorCode: '',
-        churchCode: '',
-        grade: '',
-        name: '',
-        comment: '',
-        pic: '',
-      },
-    });
+  const { register, handleSubmit, setValue, formState, control } = useForm({
+    mode: 'onSubmit',
+    defaultValues: {
+      pastorCode: '',
+      churchCode: '',
+      grade: '',
+      name: '',
+      comment: '',
+      pic: '',
+    },
+  });
   const { errors } = formState;
 
   const toList = (read) => {

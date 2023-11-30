@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useFetchChurchCode, useFetchPastor } from '../../api/commonCodeApi';
-import { Button, Container, Header, Segment } from 'semantic-ui-react';
+import { Button, Container, Form, Header, Segment } from 'semantic-ui-react';
 import MBreadcrumb from '../../components/MBreadcrumb';
 import MAgGrid from '../../components/MAgGrid';
 import PastorRegister from './PastorRegister';
@@ -86,31 +86,27 @@ export default function PastorList({ cr }) {
       <Header as="h2" dividing>
         목사님 등록
       </Header>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'end',
-          alignItems: 'center',
-          width: '100%',
-          marginBottom: '6px',
-        }}
-      >
-        <Button
-          basic
-          primary
-          content={crud === 'r' ? '등록' : '목록'}
-          size="tiny"
-          icon={crud === 'r' ? 'right arrow' : 'left arrow'}
-          labelPosition={crud === 'r' ? 'right' : 'left'}
-          onClick={() => {
-            if (crud === 'r') {
-              setCrud('c');
-            } else {
-              setCrud('r');
-            }
-          }}
-        />
-      </div>
+      <Form>
+        <Form.Group inline>
+          {/* <div style={{ width: '500px' }}></div> */}
+          <Form.Button
+            size="tiny"
+            // basic
+            // primary
+            content={crud === 'r' ? '등록' : '목록'}
+            icon={crud === 'r' ? 'right arrow' : 'left arrow'}
+            labelPosition={crud === 'r' ? 'right' : 'left'}
+            onClick={() => {
+              if (crud === 'r') {
+                setCrud('c');
+              } else {
+                setCrud('r');
+              }
+            }}
+          />
+        </Form.Group>
+      </Form>
+
       {crud === 'r' && (
         <Segment>
           <MAgGrid

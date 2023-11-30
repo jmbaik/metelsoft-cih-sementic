@@ -172,80 +172,67 @@ export default function YoutubePastor({ cr }) {
       </Header>
       <Form>
         <Form.Group inline>
-          {/* <label>Search Option : </label> */}
-          <Form.Radio
-            size="small"
-            label="Recent 50th"
-            value="time"
-            checked={options === 'time'}
-            onChange={searchHandleChange}
-          />
-          <Form.Radio
-            size="mini"
-            label="Name"
-            value="name"
-            checked={options === 'name'}
-            onChange={searchHandleChange}
-          />
-          <Form.Radio
-            size="mini"
-            label="Title"
-            value="title"
-            checked={options === 'title'}
-            onChange={searchHandleChange}
-          />
-          <Form.Radio
-            size="mini"
-            label="VID"
-            value="vid"
-            checked={options === 'vid'}
-            onChange={searchHandleChange}
-          />
-          <Form.Input
-            name="keyword"
-            size="mini"
-            width={3}
-            onChange={searchKeywordChange}
-            disabled={options === 'time' ? true : false}
-          />
-          <Form.Button size="tiny" secondary onClick={search}>
-            조회
-          </Form.Button>
+          {crud === 'r' && (
+            <>
+              <Form.Radio
+                size="small"
+                label="Recent 50th"
+                value="time"
+                checked={options === 'time'}
+                onChange={searchHandleChange}
+              />
+              <Form.Radio
+                size="mini"
+                label="Name"
+                value="name"
+                checked={options === 'name'}
+                onChange={searchHandleChange}
+              />
+              <Form.Radio
+                size="mini"
+                label="Title"
+                value="title"
+                checked={options === 'title'}
+                onChange={searchHandleChange}
+              />
+              <Form.Radio
+                size="mini"
+                label="VID"
+                value="vid"
+                checked={options === 'vid'}
+                onChange={searchHandleChange}
+              />
+              <Form.Input
+                name="keyword"
+                size="mini"
+                width={3}
+                onChange={searchKeywordChange}
+                disabled={options === 'time' ? true : false}
+              />
+              <Form.Button
+                size="tiny"
+                icon="search"
+                content="조회"
+                labelPosition="left"
+                onClick={search}
+              />
+            </>
+          )}
           <Form.Button
             size="tiny"
-            basic
-            primary
-            content="등록"
-            icon="right arrow"
-            labelPosition="right"
+            content={crud === 'r' ? '등록' : '목록'}
+            icon={crud === 'r' ? 'right arrow' : 'left arrow'}
+            labelPosition={crud === 'r' ? 'right' : 'left'}
+            onClick={() => {
+              if (crud === 'r') {
+                setCrud('c');
+              } else {
+                setCrud('r');
+              }
+            }}
           />
         </Form.Group>
       </Form>
-
-      {/* <div
-        style={{
-          display: 'flex',
-          justifyContent: 'end',
-          alignItems: 'center',
-          width: '100%',
-          marginBottom: '6px',
-        }}
-      >
-        <Button
-          basic
-          content={crud === 'r' ? '등록' : '목록'}
-          size="tiny"
-          icon={crud === 'r' ? 'right arrow' : 'left arrow'}
-          labelPosition={crud === 'r' ? 'right' : 'left'}
-          onClick={() => {
-            if (crud === 'r') {
-              setCrud('c');
-            } else {
-              setCrud('r');
-            }
-          }}
-        />
-      </div> */}
       {crud === 'r' && (
         <Segment>
           <MAgGrid

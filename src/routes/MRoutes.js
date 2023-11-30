@@ -34,7 +34,7 @@ export default function MRoutes() {
           <Route path="/admin" element={<AdminMain />} />
           <Route path="/common-code" element={<CommonCode />} />
           <Route path="/not-work" element={<NotServicePage />} />
-          <Route path="/youtube-pastor" element={<YoutubePastor />} />
+          <Route path="/youtube-pastor" element={<YoutubePastor cr="r" />} />
           <Route path="/area-code" element={<AreaCode />} />
           <Route path="/church-code" element={<ChurchList cr="r" />} />
           <Route path="/pastor-code" element={<PastorList cr="r" />} />

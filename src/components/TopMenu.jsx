@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
-import { Header, Icon, Image, Input, Label, Menu } from 'semantic-ui-react';
-import Notification from './Notification';
+import { Button, Header, Icon, Image, Input, Menu } from 'semantic-ui-react';
+
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { searchTextState, smallMenuState } from '../atoms/GlobalState';
 import { adminUserState } from '../atoms/adminUserState';
 import { RxAvatar } from 'react-icons/rx';
+import { useNavigate } from 'react-router-dom';
 
 export default function TopMenu() {
   const user = useRecoilValue(adminUserState);
   const setSearchText = useSetRecoilState(searchTextState);
   const [smallMenu, setSmallMenu] = useRecoilState(smallMenuState);
+  const navigate = useNavigate();
   const doSearch = (e) => {
     setSearchText(e.target.value);
   };
@@ -45,7 +47,23 @@ export default function TopMenu() {
 
       <Menu.Menu position="right">
         <Menu.Item className="no-border" position="right">
-          <Notification />
+          {/* <Button icon circular color="linkedin">
+            <Icon name="setting" size="large" />
+          </Button> */}
+          {/* <Icon.Group size="large">
+            <Icon size="big" name="circle outline" />
+            <Icon name="setting" />
+          </Icon.Group> */}
+          <Button
+            icon
+            circular
+            onClick={() => {
+              navigate('/not-work');
+            }}
+          >
+            <Icon name="setting" size="large" color="grey" />
+          </Button>
+          {/* <Notification />
           <Label
             className="label-on-corner"
             color="teal"
@@ -54,7 +72,7 @@ export default function TopMenu() {
             circular
           >
             22
-          </Label>
+          </Label> */}
         </Menu.Item>
         <Menu.Item className="no-border" position="right">
           <div className="display-inline">
@@ -64,7 +82,7 @@ export default function TopMenu() {
               src="https://react.semantic-ui.com/images/avatar/large/jenny.jpg"
             /> */}
             <RxAvatar size="40" />
-            {user?.name}님
+            &nbsp;&nbsp;{user?.name}님&nbsp;&nbsp;
           </div>
         </Menu.Item>
       </Menu.Menu>

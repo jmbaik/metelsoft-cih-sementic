@@ -9,18 +9,22 @@ export const adminUserState = atom({
   default: getUserFromSessionStorage(),
   /*
   default: {
-    email: '',
-    phone: '',
-    password: '',
-    name: '',
-    userId: '',
-    cCode: '',
-    adminLevel: '',
-    churchName: '',
-    regDate: '',
-    updDate: '',
-    token: '',
-  },
+    uid
+    email
+    phone
+    password
+    admin_level
+    c_code
+    name
+    nickname
+    comment
+    pic
+    token
+    regid
+    regdate
+    updid
+    upddate
+        },  },
   effects_UNSTABLE: [persistAtom],
   */
 });

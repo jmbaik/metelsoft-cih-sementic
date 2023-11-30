@@ -36,7 +36,7 @@ const columns = [
   {
     field: 'vid',
     headerName: 'VID',
-    width: 120,
+    width: 150,
     cellRenderer: function (params) {
       const _url = `https://youtube.com/watch?v=${params.value}`;
       return (

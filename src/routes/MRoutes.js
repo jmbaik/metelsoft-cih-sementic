@@ -16,6 +16,7 @@ import ChurchList from '../pages/admin/ChurchList';
 import FromTest from '../pages/etc/FromTest';
 import PastorList from '../pages/admin/PastorList';
 import ChannelList from '../pages/youtube/ChannelList';
+import TabTest from '../pages/etc/TabTest';
 
 export default function MRoutes() {
   return (
@@ -41,6 +42,7 @@ export default function MRoutes() {
           <Route path="/youtube-channel" element={<ChannelList cr="r" />} />
           <Route path="/grid-test" element={<GridTest />} />
           <Route path="/form-test" element={<FromTest />} />
+          <Route path="/tab-test" element={<TabTest />} />
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="*" element={<Error />} />

@@ -200,6 +200,14 @@ function MenuItems(props) {
               setSelected={props.setActiveItem}
               smallMenu={props.smallMenu}
             />
+            <SideMenuItem
+              title="Tab Test"
+              to="/tab-test"
+              icon={<IoCodeWorkingSharp size={20} />}
+              selected={props.activeItem}
+              setSelected={props.setActiveItem}
+              smallMenu={props.smallMenu}
+            />
           </SideSubMenu>
         </PMenu>
       </Sidebar>

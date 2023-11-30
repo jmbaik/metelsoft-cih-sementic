@@ -1,11 +1,9 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import { Container, Form, Header, Image, Segment } from 'semantic-ui-react';
+import { useFetchYoutubeCeleb } from '../../api/youtubeCelebApi';
 import MBreadcrumb from '../../components/MBreadcrumb';
-import { useState } from 'react';
-import { useEffect } from 'react';
-import { useFetchYoutubePastor } from '../../api/youtubeVideo';
 import MAgGrid from '../../components/MAgGrid';
-import YoutubePastorRegister from './YoutubePastorRegister';
+import YoutubeCelebRegister from './YoutubeCelebRegister';
 
 const columns = [
   {
@@ -37,17 +35,6 @@ const columns = [
         </a>
       );
     },
-  },
-  {
-    field: 'pastorCode',
-    headerName: '목사코드',
-    width: 100,
-  },
-  {
-    field: 'pastorName',
-    headerName: '목사',
-    width: 100,
-    sortable: true,
   },
   {
     field: 'title',
@@ -113,7 +100,7 @@ const columns = [
   },
 ];
 
-export default function YoutubePastor({ cr }) {
+export default function YoutubeCeleb({ cr }) {
   const [crud, setCrud] = useState('r');
   const [editParams, setEditParams] = useState({});
 
@@ -159,16 +146,16 @@ export default function YoutubePastor({ cr }) {
   };
 
   const { isLoading, data, isError, error } =
-    useFetchYoutubePastor(searchParams);
+    useFetchYoutubeCeleb(searchParams);
   console.log(searchParams);
 
   if (isLoading) return <h3>Loading...</h3>;
   if (isError) return <h3>{error.message}</h3>;
   return (
     <Container fluid>
-      <MBreadcrumb first={'Home'} second={'Youtube'} third={'Pastor'} />
+      <MBreadcrumb first={'Home'} second={'Youtube'} third={'Celebrity'} />
       <Header as="h2" dividing>
-        Youtube 목사님 영상 등록
+        Youtube 유명인 간증 영상
       </Header>
       <Form>
         <Form.Group inline>
@@ -179,13 +166,6 @@ export default function YoutubePastor({ cr }) {
                 label="Recent 50th"
                 value="time"
                 checked={options === 'time'}
-                onChange={searchHandleChange}
-              />
-              <Form.Radio
-                size="mini"
-                label="Name"
-                value="name"
-                checked={options === 'name'}
                 onChange={searchHandleChange}
               />
               <Form.Radio
@@ -247,11 +227,7 @@ export default function YoutubePastor({ cr }) {
         </Segment>
       )}
       {(crud === 'c' || crud === 'e') && (
-        <YoutubePastorRegister
-          upperFn={fnSub}
-          params={editParams}
-          crud={crud}
-        />
+        <YoutubeCelebRegister upperFn={fnSub} params={editParams} crud={crud} />
       )}
     </Container>
   );

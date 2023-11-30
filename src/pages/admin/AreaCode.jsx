@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { useFetchAreaCode } from './../../api/commonCodeApi';
-import { Breadcrumb, Header, Segment } from 'semantic-ui-react';
+import { Header, Segment } from 'semantic-ui-react';
 import MAgGrid from '../../components/MAgGrid';
 import MBreadcrumb from '../../components/MBreadcrumb';
 

@@ -1,26 +1,21 @@
-import React, { useCallback, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { Segment, Input, Form, Button, Icon, Divider } from 'semantic-ui-react';
-import { useFetchPastor } from '../../api/commonCodeApi';
-import MAutocomplete from '../../components/MAutocomplete';
-import MSelect from '../../components/MSelect';
-import {
-  useDeleteYoutubePastor,
-  useFetchYoutubeSearchByVid,
-  useSaveYoutubeSearchByVid,
-} from './../../api/youtubeDataApi';
-import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { adminUserState } from './../../atoms/adminUserState';
+import { adminUserState } from '../../atoms/adminUserState';
+import { useCallback, useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useFetchYoutubeSearchByVid } from '../../api/youtubeDataApi';
+import {
+  useDeleteYoutubeSermon,
+  useSaveYoutubeSermon,
+} from '../../api/youtubeSermonApi';
+import { Button, Divider, Form, Icon, Segment } from 'semantic-ui-react';
+import MSelect from '../../components/MSelect';
 
-export default function YoutubePastorRegister(props) {
+export default function YoutubeSermonRegister(props) {
   const user = useRecoilValue(adminUserState);
 
-  const { data: pastorData } = useFetchPastor(props.crud);
   const [formData, setFormData] = useState({
     youtubeId: '',
     channelId: '',
-    pastorCode: props.crud === 'e' ? props.params.pastorCode : '',
     grade: props.crud === 'e' ? props.params.grade : '',
   });
 
@@ -41,7 +36,6 @@ export default function YoutubePastorRegister(props) {
     defaultValues: {
       youtubeId: '',
       vid: '',
-      pastorCode: '',
       channelId: '',
       title: '',
       channelTitle: '',
@@ -51,6 +45,7 @@ export default function YoutubePastorRegister(props) {
       grade: '',
       sort: '',
       createYmd: '',
+      publishedAt: '',
       description: '',
       userId: '',
       updDt: '',
@@ -75,22 +70,15 @@ export default function YoutubePastorRegister(props) {
     }
   };
 
-  const { mutateSaveYoutubeSearch } = useSaveYoutubeSearchByVid();
-  const { mutateDeleteYoutubePastor } = useDeleteYoutubePastor();
+  const { mutateSaveYoutubeSermon } = useSaveYoutubeSermon();
+  const { mutateDeleteYoutubeSermon } = useDeleteYoutubeSermon();
 
   const onSubmit = (data) => {
-    const _pastorCode =
-      props.crud === 'e' ? formData?.pastorCode : getValues('pastorCode');
-    if (!_pastorCode.length) {
-      alert('목사님을 선택하지 않았습니다.');
-      return;
-    }
     const reqData = {
       ...data,
-      pastorCode: _pastorCode,
       userId: user.uid,
     };
-    mutateSaveYoutubeSearch(reqData, {
+    mutateSaveYoutubeSermon(reqData, {
       onSuccess: () => {
         alert('저장작업을 성공하였습니다.');
         reset();
@@ -115,14 +103,13 @@ export default function YoutubePastorRegister(props) {
     if (cfm) {
       const _getvalues = getValues();
       const reqData = { ..._getvalues, userId: user.uid };
-      mutateDeleteYoutubePastor(reqData, {
+      mutateDeleteYoutubeSermon(reqData, {
         onSuccess: () => {
           alert('삭제작업을 성공하였습니다.');
           reset();
           setFormData({
             youtubeId: '',
             channelId: '',
-            pastorCode: '',
             grade: '',
             sort: '',
           });
@@ -203,16 +190,6 @@ export default function YoutubePastorRegister(props) {
       >
         <Segment>
           <Form.Group widths={'equal'}>
-            <Form.Field>
-              <label>목사님 선택</label>
-              <MAutocomplete
-                control={control}
-                data={pastorData || []}
-                val="pastorCode"
-                name="pastorCode"
-                labelFunc={(x) => x.name + ' [' + x.churchName + ']'}
-              />
-            </Form.Field>
             <Form.Field>
               <MSelect
                 control={control}

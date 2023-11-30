@@ -154,7 +154,7 @@ function MenuItems(props) {
             />
             <SideMenuItem
               title="유명인 간증영상"
-              to="/not-work"
+              to="/youtube-celeb"
               icon={<RiUserStarLine size={20} />}
               selected={props.activeItem}
               setSelected={props.setActiveItem}
@@ -162,7 +162,7 @@ function MenuItems(props) {
             />
             <SideMenuItem
               title="강해 설교영상"
-              to="/not-work"
+              to="/youtube-sermon"
               icon={<GiPublicSpeaker size={20} />}
               selected={props.activeItem}
               setSelected={props.setActiveItem}
@@ -170,7 +170,7 @@ function MenuItems(props) {
             />
             <SideMenuItem
               title="긍휼 사역영상"
-              to="/not-work"
+              to="/youtube-mercy"
               icon={<GiWinterGloves size={20} />}
               selected={props.activeItem}
               setSelected={props.setActiveItem}
@@ -186,7 +186,7 @@ function MenuItems(props) {
           >
             <SideMenuItem
               title="Youtube CCM Shorts"
-              to="/not-work"
+              to="/youtube-ccm"
               icon={<SiYoutubeshorts size={20} />}
               selected={props.activeItem}
               setSelected={props.setActiveItem}

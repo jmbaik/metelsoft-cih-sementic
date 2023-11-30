@@ -1,0 +1,63 @@
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import apiFetch from '../bundle/axios';
+
+export const useFetchYoutubeMercy = (p) => {
+  const { isLoading, data, isError, error } = useQuery({
+    queryKey: ['youtube/mercy', p],
+    // get방식일 경우 async인자에 params 인자를 넣어면 안된다.
+    queryFn: async () => {
+      const response = await apiFetch.get('/youtube/mercy', {
+        params: {
+          options: p.options,
+          keyword: p.keyword,
+        },
+      });
+      return response.data.result;
+    },
+    keepPreviousData: true,
+    enabled: !!p,
+  });
+  return { data, isLoading, isError, error };
+};
+
+export const useSaveYoutubeMercy = () => {
+  const QueryClient = useQueryClient();
+  const { mutate: mutateSaveYoutubeMercy, isLoading: isLoadingYoutubeMercy } =
+    useMutation({
+      mutationFn: async (params) => {
+        const response = await apiFetch.post('/youtube/mercy', params);
+        return response.data.result;
+      },
+      onSuccess: () => {
+        QueryClient.invalidateQueries({
+          queryKey: ['youtube/mercy'],
+        });
+      },
+      onError: (err) => {
+        console.log(err);
+      },
+    });
+  return { mutateSaveYoutubeMercy, isLoadingYoutubeMercy };
+};
+
+export const useDeleteYoutubeMercy = () => {
+  const QueryClient = useQueryClient();
+  const {
+    mutate: mutateDeleteYoutubeMercy,
+    isLoading: isLoadingDeleteYoutubeMercy,
+  } = useMutation({
+    mutationFn: async (params) => {
+      const response = await apiFetch.post('/youtube/mercy-delete', params);
+      return response.data.result;
+    },
+    onSuccess: () => {
+      QueryClient.invalidateQueries({
+        queryKey: ['youtube/mercy'],
+      });
+    },
+    onError: (err) => {
+      console.log(err);
+    },
+  });
+  return { mutateDeleteYoutubeMercy, isLoadingDeleteYoutubeMercy };
+};

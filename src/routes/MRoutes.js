@@ -17,6 +17,10 @@ import FromTest from '../pages/etc/FromTest';
 import PastorList from '../pages/admin/PastorList';
 import ChannelList from '../pages/youtube/ChannelList';
 import TabTest from '../pages/etc/TabTest';
+import YoutubeCeleb from '../pages/celeb/YoutubeCeleb';
+import YoutubeSermon from '../pages/sermon/YoutubeSermon';
+import YoutubeMercy from '../pages/mercy/YoutubeMercy';
+import ShortsCcm from '../pages/ccm/ShortsCcm';
 
 export default function MRoutes() {
   return (
@@ -36,6 +40,10 @@ export default function MRoutes() {
           <Route path="/common-code" element={<CommonCode />} />
           <Route path="/not-work" element={<NotServicePage />} />
           <Route path="/youtube-pastor" element={<YoutubePastor cr="r" />} />
+          <Route path="/youtube-celeb" element={<YoutubeCeleb cr="r" />} />
+          <Route path="/youtube-sermon" element={<YoutubeSermon cr="r" />} />
+          <Route path="/youtube-mercy" element={<YoutubeMercy cr="r" />} />
+          <Route path="/youtube-ccm" element={<ShortsCcm cr="r" />} />
           <Route path="/area-code" element={<AreaCode />} />
           <Route path="/church-code" element={<ChurchList cr="r" />} />
           <Route path="/pastor-code" element={<PastorList cr="r" />} />

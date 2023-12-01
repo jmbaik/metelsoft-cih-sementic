@@ -16,6 +16,7 @@ import { FaYoutube } from 'react-icons/fa';
 import { GiPublicSpeaker } from 'react-icons/gi';
 import { GiWinterGloves } from 'react-icons/gi';
 import { SiYoutubeshorts } from 'react-icons/si';
+import { BsDatabaseDown } from 'react-icons/bs';
 
 export default function SideMenu(props) {
   const [activeItem, setActiveItem] = useRecoilState(activeSideItemState);
@@ -132,18 +133,26 @@ function MenuItems(props) {
         </PMenu>
         <PMenu>
           <SideSubMenu
-            title="Youtube 영상관리"
+            title="Youtube Data"
             smallMenu={props.smallMenu}
-            icon={<TfiYoutube size={20} />}
+            icon={<BsDatabaseDown size={20} />}
           >
             <SideMenuItem
-              title="채널 조회"
+              title="채널영상자동등록"
               to="/youtube-channel"
               icon={<GrChannel size={20} />}
               selected={props.activeItem}
               setSelected={props.setActiveItem}
               smallMenu={props.smallMenu}
             />
+          </SideSubMenu>
+        </PMenu>
+        <PMenu>
+          <SideSubMenu
+            title="Youtube 영상관리"
+            smallMenu={props.smallMenu}
+            icon={<TfiYoutube size={20} />}
+          >
             <SideMenuItem
               title="목사님 영상"
               to="/youtube-pastor"

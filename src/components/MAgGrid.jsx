@@ -12,7 +12,7 @@ export default function MAgGrid({
   height,
   rowHeight,
   onDoubleClicked,
-  isAutoSizeColumn = true,
+  isAutoSizeColumn = false,
 }) {
   const smallMenu = useRecoilValue(smallMenuState);
 

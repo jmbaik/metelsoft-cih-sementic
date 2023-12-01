@@ -15,7 +15,7 @@ import GridTest from '../pages/etc/GridTest';
 import ChurchList from '../pages/admin/ChurchList';
 import FromTest from '../pages/etc/FromTest';
 import PastorList from '../pages/admin/PastorList';
-import ChannelList from '../pages/youtube/ChannelList';
+import ChannelList from '../pages/youtubeData/ChannelList';
 import TabTest from '../pages/etc/TabTest';
 import YoutubeCeleb from '../pages/celeb/YoutubeCeleb';
 import YoutubeSermon from '../pages/sermon/YoutubeSermon';

@@ -16,7 +16,7 @@ import { adminUserState } from './../../atoms/adminUserState';
 export default function YoutubePastorRegister(props) {
   const user = useRecoilValue(adminUserState);
 
-  const { data: pastorData } = useFetchPastor(props.crud);
+  const { data: pastorData } = useFetchPastor();
   const [formData, setFormData] = useState({
     youtubeId: '',
     channelId: '',

@@ -2,7 +2,13 @@ import React from 'react';
 import { useController } from 'react-hook-form';
 import { Dropdown } from 'semantic-ui-react';
 
-export default function MSelect({ control, data, name, required }) {
+export default function MSelect({
+  control,
+  data,
+  name,
+  required,
+  isLabel = true,
+}) {
   // { key: '', value: '', text: '-선택' },
   const {
     field: { value, onChange },
@@ -12,7 +18,7 @@ export default function MSelect({ control, data, name, required }) {
   // console.log('formstate.errors', formState.errors[name]);
   return (
     <>
-      <label>{name}</label>
+      {isLabel && <label>{name}</label>}
       <Dropdown
         fluid
         options={data}

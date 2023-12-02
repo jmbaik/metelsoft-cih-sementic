@@ -28,7 +28,10 @@ export const useSaveYoutubeSearchByVid = () => {
     useMutation({
       mutationFn: async (params) => {
         console.log('Youtube pastor save useSaveYoutubeSearchByVid');
-        const response = await apiFetch.post('/youtube/pastor', params);
+        const response = await apiFetch.post(
+          CKeys.apiFetchUrl.youtubePastor,
+          params
+        );
         return response.data.result;
       },
       onSuccess: () => {

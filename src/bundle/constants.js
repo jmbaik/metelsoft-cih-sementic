@@ -6,6 +6,22 @@ export const CKeys = {
   youtubeDataApiUrl: {
     search: 'https://www.googleapis.com/youtube/v3/videos',
     playListItems: 'https://youtube.googleapis.com/youtube/v3/playlistItems',
+    channel: 'https://youtube.googleapis.com/youtube/v3/channels',
+  },
+  apiQueryKey: {
+    saveFetchVideosByChannel: '/youtube-data/save-videos-by-channel',
+    youtubePastor: '/youtube/pastor',
+    celeb: '/youtube/celeb',
+    sermon: '/youtube/sermon',
+    mercy: '/youtube/mercy',
+    ccm: '/youtube/ccm',
+  },
+  apiFetchUrl: {
+    youtubePastor: '/youtube/pastor',
+    celeb: '/youtube/celeb',
+    sermon: '/youtube/sermon',
+    mercy: '/youtube/mercy',
+    ccm: '/youtube/ccm',
   },
   thumnailDefault: {
     width: 120,

@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { CKeys } from '../../bundle/constants';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import apiFetch from '../../bundle/axios';
 
 async function getItemsByPlayListId(playListId) {
   //https://youtube.googleapis.com/youtube/v3/playlistItems
@@ -23,7 +25,7 @@ export const YoutubeChannelSaveItems = async (params) => {
   let response = [];
   const channelId = params.channelId;
   try {
-    const _channel_url = `https://youtube.googleapis.com/youtube/v3/channels?part=contentDetails&id=${channelId}&key=${CKeys.YOUTUBE_API_KEY}`;
+    const _channel_url = `${CKeys.youtubeDataApiUrl.channel}?part=contentDetails&id=${channelId}&key=${CKeys.YOUTUBE_API_KEY}`;
     response = await axios.get(_channel_url);
     console.log('channel_response', response);
     const playListItems = response.data.items;
@@ -41,4 +43,26 @@ export const YoutubeChannelSaveItems = async (params) => {
   } catch (e) {
     alert(e.message);
   }
+};
+
+export const useSaveYoutubeDataByChannel = () => {
+  const {
+    mutate: mutateSaveYoutubeDataByChannel,
+    isLoading: isLoadingYoutubeDataByChannel,
+  } = useMutation({
+    mutationFn: async (params) => {
+      const response = await apiFetch.post(
+        CKeys.apiQueryKey.saveFetchVideosByChannel,
+        params
+      );
+      return response.data.result;
+    },
+    onSuccess: (data) => {
+      console.log('youtube data by channel ', data);
+    },
+    onError: (err) => {
+      console.log(err);
+    },
+  });
+  return { mutateSaveYoutubeDataByChannel, isLoadingYoutubeDataByChannel };
 };

@@ -1,12 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import apiFetch from '../bundle/axios';
+import { CKeys } from '../bundle/constants';
 
 export const useFetchYoutubeCcm = (p) => {
   const { isLoading, data, isError, error } = useQuery({
     queryKey: ['youtube/ccm', p],
     // get방식일 경우 async인자에 params 인자를 넣어면 안된다.
     queryFn: async () => {
-      const response = await apiFetch.get('/youtube/ccm', {
+      const response = await apiFetch.get(CKeys.apiFetchUrl.ccm, {
         params: {
           options: p.options,
           keyword: p.keyword,
@@ -25,12 +26,12 @@ export const useSaveYoutubeCcm = () => {
   const { mutate: mutateSaveYoutubeCcm, isLoading: isLoadingYoutubeCcm } =
     useMutation({
       mutationFn: async (params) => {
-        const response = await apiFetch.post('/youtube/ccm', params);
+        const response = await apiFetch.post(CKeys.apiFetchUrl.ccm, params);
         return response.data.result;
       },
       onSuccess: () => {
         QueryClient.invalidateQueries({
-          queryKey: ['youtube/ccm'],
+          queryKey: [CKeys.apiQueryKey.ccm],
         });
       },
       onError: (err) => {
@@ -52,7 +53,7 @@ export const useDeleteYoutubeCcm = () => {
     },
     onSuccess: () => {
       QueryClient.invalidateQueries({
-        queryKey: ['youtube/ccm'],
+        queryKey: [CKeys.apiQueryKey.ccm],
       });
     },
     onError: (err) => {

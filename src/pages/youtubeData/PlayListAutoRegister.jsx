@@ -6,6 +6,7 @@ import { adminUserState } from '../../atoms/adminUserState';
 import { useForm } from 'react-hook-form';
 import { useFetchPastor } from '../../api/commonCodeApi';
 import MSelect from '../../components/MSelect';
+import { YoutubeChannelSaveItems } from './MetelYoutubeApi';
 
 export default function PlayListAutoRegister(props) {
   const user = useRecoilValue(adminUserState);
@@ -27,7 +28,7 @@ export default function PlayListAutoRegister(props) {
     },
   });
   const { errors } = formState;
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     const _category = getValues('category');
     const _pastorCode = getValues('pastorCode');
     if (_category === 'pastor') {
@@ -36,7 +37,12 @@ export default function PlayListAutoRegister(props) {
         return;
       }
     }
+    const items = await YoutubeChannelSaveItems(data);
+    console.log('items', items);
     alert('submit');
+  };
+  const toList = (read) => {
+    props.upperFn(read);
   };
 
   return (
@@ -44,7 +50,7 @@ export default function PlayListAutoRegister(props) {
       <Form
         onSubmit={handleSubmit(onSubmit)}
         noValidate
-        style={{ width: '900px' }}
+        style={{ width: '1024px' }}
       >
         <Form.Group>
           <Form.Field>
@@ -57,6 +63,7 @@ export default function PlayListAutoRegister(props) {
               labelPosition="left"
               onClick={(e) => {
                 e.preventDefault();
+                toList('r');
               }}
             />
           </Form.Field>
@@ -65,10 +72,11 @@ export default function PlayListAutoRegister(props) {
             name="channelId"
             placeholder="Channel Id"
             readOnly
+            style={{ width: 300 }}
             {...register('channelId', { required: 'channelId 필수 항목' })}
             error={!!errors?.channelId}
           />
-          <Form.Field>
+          <Form.Field style={{ width: 200 }}>
             <MSelect
               isLabel={false}
               control={control}

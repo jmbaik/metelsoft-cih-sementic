@@ -6,7 +6,7 @@ import apiFetch from '../bundle/axios';
 export const useFetchYoutubeSearchByVid = (youtubeId) => {
   const { isLoading, data, isError, error } = useQuery({
     queryKey: [CKeys.youtubeDataQueryKey.search, youtubeId],
-    queryFn: async (params) => {
+    queryFn: async () => {
       const response = await axios.get(CKeys.youtubeDataApiUrl.search, {
         params: {
           key: CKeys.YOUTUBE_API_KEY,

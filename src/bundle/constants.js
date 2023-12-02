@@ -5,6 +5,7 @@ export const CKeys = {
   },
   youtubeDataApiUrl: {
     search: 'https://www.googleapis.com/youtube/v3/videos',
+    playListItems: 'https://youtube.googleapis.com/youtube/v3/playlistItems',
   },
   thumnailDefault: {
     width: 120,

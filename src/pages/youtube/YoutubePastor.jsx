@@ -8,6 +8,12 @@ import MAgGrid from '../../components/MAgGrid';
 import YoutubePastorRegister from './YoutubePastorRegister';
 
 const columns = [
+  // {
+  //   field: 'check',
+  //   width: 30,
+  //   headerCheckboxSelection: true,
+  //   checkboxSelection: true,
+  // },
   {
     field: 'thumbnailDefault',
     headerName: 'Thumbnail',

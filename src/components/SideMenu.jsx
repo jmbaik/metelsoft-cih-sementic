@@ -17,6 +17,7 @@ import { GiPublicSpeaker } from 'react-icons/gi';
 import { GiWinterGloves } from 'react-icons/gi';
 import { SiYoutubeshorts } from 'react-icons/si';
 import { BsDatabaseDown } from 'react-icons/bs';
+import { MdOutlineYoutubeSearchedFor } from 'react-icons/md';
 
 export default function SideMenu(props) {
   const [activeItem, setActiveItem] = useRecoilState(activeSideItemState);
@@ -141,6 +142,14 @@ function MenuItems(props) {
               title="채널영상자동등록"
               to="/youtube-channel"
               icon={<GrChannel size={20} />}
+              selected={props.activeItem}
+              setSelected={props.setActiveItem}
+              smallMenu={props.smallMenu}
+            />
+            <SideMenuItem
+              title="Search 자동등록"
+              to="/youtube-data-search"
+              icon={<MdOutlineYoutubeSearchedFor size={20} />}
               selected={props.activeItem}
               setSelected={props.setActiveItem}
               smallMenu={props.smallMenu}

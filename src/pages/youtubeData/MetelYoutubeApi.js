@@ -66,3 +66,25 @@ export const useSaveYoutubeDataByChannel = () => {
   });
   return { mutateSaveYoutubeDataByChannel, isLoadingYoutubeDataByChannel };
 };
+
+export const useSaveVideosBySearchApi = () => {
+  const {
+    mutate: mutateSaveYoutubeDataByChannel,
+    isLoading: isLoadingYoutubeDataByChannel,
+  } = useMutation({
+    mutationFn: async (params) => {
+      const response = await apiFetch.post(
+        CKeys.apiQueryKey.saveFetchVideosBySearch,
+        params
+      );
+      return response.data.result;
+    },
+    onSuccess: (data) => {
+      console.log('youtube data by channel ', data);
+    },
+    onError: (err) => {
+      console.log(err);
+    },
+  });
+  return { mutateSaveYoutubeDataByChannel, isLoadingYoutubeDataByChannel };
+};

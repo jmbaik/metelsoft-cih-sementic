@@ -12,6 +12,7 @@ export default function MAgGrid({
   height,
   rowHeight,
   onDoubleClicked,
+  onSelection,
   isAutoSizeColumn = false,
 }) {
   const smallMenu = useRecoilValue(smallMenuState);
@@ -35,6 +36,13 @@ export default function MAgGrid({
       onDoubleClicked(e.data);
     },
     [onDoubleClicked]
+  );
+
+  const onSelectionChanged = useCallback(
+    (e) => {
+      onSelection(e.api.getSelectedRows());
+    },
+    [onSelection]
   );
 
   console.log('smallMenu', smallMenu);
@@ -74,8 +82,10 @@ export default function MAgGrid({
             columnDefs={columnDefs}
             rowHeight={30}
             headerHeight={30}
+            rowSelection="multiple"
             onFirstDataRendered={onFirstDataRendered}
             onRowDoubleClicked={onRowDoubleClicked}
+            onSelectionChanged={onSelectionChanged}
             {...(rowHeight ? { rowHeight: rowHeight } : {})}
           ></AgGridReact>
         </div>

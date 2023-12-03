@@ -10,6 +10,7 @@ export const CKeys = {
   },
   apiQueryKey: {
     saveFetchVideosByChannel: '/youtube-data/save-videos-by-channel',
+    saveFetchVideosBySearch: '/youtube-data/save-videos-by-search',
     youtubePastor: '/youtube/pastor',
     celeb: '/youtube/celeb',
     sermon: '/youtube/sermon',

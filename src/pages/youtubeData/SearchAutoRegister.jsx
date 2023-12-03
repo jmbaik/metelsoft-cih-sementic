@@ -16,15 +16,7 @@ export default function SearchAutoRegister(props) {
 
   const user = useRecoilValue(adminUserState);
   const { data: pastorData } = useFetchPastor(props.crud);
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    getValues,
-    formState,
-    reset,
-    control,
-  } = useForm({
+  const { register, handleSubmit, setValue, formState, control } = useForm({
     mode: 'onSubmit',
     defaultValues: {
       category: '',
@@ -51,10 +43,12 @@ export default function SearchAutoRegister(props) {
     }
     const reqData = {
       ...data,
+      prevPageToken: '',
       userId: user.uid,
     };
     mutateSaveVideosBySearchApi(reqData, {
       onSuccess: (data) => {
+        console.log('mutateSaveVideosBySearchApi', data);
         const result = data.result;
         if (result === 'error') {
           alert(data.message);
@@ -62,7 +56,8 @@ export default function SearchAutoRegister(props) {
         }
         setValue('prevPageToken', data.prevPageToken);
         setValue('nextPageToken', data.nextPageToken);
-        const videos = data.Videos;
+        const videos = data.videos;
+        console.log('videos', videos);
         setResultData(videos);
         alert('저장작업을 성공하였습니다.');
       },
@@ -162,15 +157,6 @@ export default function SearchAutoRegister(props) {
             {...register('q', { required: 'q 필수 항목' })}
             error={!!errors?.q}
           />
-          <Form.Field>
-            <Button
-              size="small"
-              icon="right arrow"
-              onClick={(e) => {
-                e.preventDefault();
-              }}
-            />
-          </Form.Field>
           <Form.Field style={{ width: '50px' }}>
             <Button type="submit" primary icon>
               <Icon name="cloud download" />

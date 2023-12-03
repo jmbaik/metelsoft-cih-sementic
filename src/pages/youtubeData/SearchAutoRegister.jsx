@@ -34,7 +34,6 @@ export default function SearchAutoRegister(props) {
   const onSubmit = async (data) => {
     const _category = data.category;
     const _pastorCode = data.pastorCode;
-    console.log('onsubmit req', data);
     if (_category === 'pastor') {
       if (_pastorCode.length === 0) {
         alert('목사님을 선택하여 주세요');
@@ -48,7 +47,6 @@ export default function SearchAutoRegister(props) {
     };
     mutateSaveVideosBySearchApi(reqData, {
       onSuccess: (data) => {
-        console.log('mutateSaveVideosBySearchApi', data);
         const result = data.result;
         if (result === 'error') {
           alert(data.message);
@@ -57,7 +55,6 @@ export default function SearchAutoRegister(props) {
         setValue('prevPageToken', data.prevPageToken);
         setValue('nextPageToken', data.nextPageToken);
         const videos = data.videos;
-        console.log('videos', videos);
         setResultData(videos);
         alert('저장작업을 성공하였습니다.');
       },

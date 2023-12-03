@@ -27,13 +27,10 @@ export const YoutubeChannelSaveItems = async (params) => {
   try {
     const _channel_url = `${CKeys.youtubeDataApiUrl.channel}?part=contentDetails&id=${channelId}&key=${CKeys.YOUTUBE_API_KEY}`;
     response = await axios.get(_channel_url);
-    console.log('channel_response', response);
     const playListItems = response.data.items;
-    console.log('playlistItems', playListItems);
     const playListIds = playListItems.map((v) => {
       return v.contentDetails.relatedPlaylists.uploads;
     });
-    console.log('playListIds', playListIds);
     const items = await Promise.all(
       playListIds.map(async (val) => {
         return await getItemsByPlayListId(val);

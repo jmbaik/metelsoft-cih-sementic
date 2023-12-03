@@ -85,7 +85,10 @@ export default function MAgGrid({
             rowSelection="multiple"
             onFirstDataRendered={onFirstDataRendered}
             onRowDoubleClicked={onRowDoubleClicked}
-            onSelectionChanged={onSelectionChanged}
+            {...(onSelection
+              ? { onSelectionChanged: { onSelectionChanged } }
+              : {})}
+            // onSelectionChanged={onSelectionChanged}
             {...(rowHeight ? { rowHeight: rowHeight } : {})}
           ></AgGridReact>
         </div>

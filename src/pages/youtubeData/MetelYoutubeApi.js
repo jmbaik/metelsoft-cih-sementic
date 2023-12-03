@@ -69,8 +69,8 @@ export const useSaveYoutubeDataByChannel = () => {
 
 export const useSaveVideosBySearchApi = () => {
   const {
-    mutate: mutateSaveYoutubeDataByChannel,
-    isLoading: isLoadingYoutubeDataByChannel,
+    mutate: mutateSaveVideosBySearchApi,
+    isLoading: isLoadingSaveVideosBySearchApi,
   } = useMutation({
     mutationFn: async (params) => {
       const response = await apiFetch.post(
@@ -86,5 +86,5 @@ export const useSaveVideosBySearchApi = () => {
       console.log(err);
     },
   });
-  return { mutateSaveYoutubeDataByChannel, isLoadingYoutubeDataByChannel };
+  return { mutateSaveVideosBySearchApi, isLoadingSaveVideosBySearchApi };
 };

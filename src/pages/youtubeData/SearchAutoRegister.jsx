@@ -5,11 +5,11 @@ import { useFetchPastor } from '../../api/commonCodeApi';
 import { adminUserState } from '../../atoms/adminUserState';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useSaveYoutubeDataByChannel } from './MetelYoutubeApi';
 import MSelect from '../../components/MSelect';
 import MAutocomplete from '../../components/MAutocomplete';
 import Loading from '../../components/Loading';
 import MAgGrid from '../../components/MAgGrid';
+import { useSaveVideosBySearchApi } from './MetelYoutubeApi';
 
 export default function SearchAutoRegister(props) {
   const [resultData, setResultData] = useState([]);
@@ -30,16 +30,19 @@ export default function SearchAutoRegister(props) {
       category: '',
       pastorCode: '',
       channelId: props.params.channelId,
+      prevPageToken: '',
+      nextPageToken: '',
     },
   });
   const { errors } = formState;
 
-  const { mutateSaveYoutubeDataByChannel, isLoadingYoutubeDataByChannel } =
-    useSaveYoutubeDataByChannel();
+  const { mutateSaveVideosBySearchApi, isLoadingSaveVideosBySearchApi } =
+    useSaveVideosBySearchApi();
 
   const onSubmit = async (data) => {
-    const _category = getValues('category');
-    const _pastorCode = getValues('pastorCode');
+    const _category = data.category;
+    const _pastorCode = data.pastorCode;
+    console.log('onsubmit req', data);
     if (_category === 'pastor') {
       if (_pastorCode.length === 0) {
         alert('목사님을 선택하여 주세요');
@@ -50,9 +53,17 @@ export default function SearchAutoRegister(props) {
       ...data,
       userId: user.uid,
     };
-    mutateSaveYoutubeDataByChannel(reqData, {
+    mutateSaveVideosBySearchApi(reqData, {
       onSuccess: (data) => {
-        setResultData(data);
+        const result = data.result;
+        if (result === 'error') {
+          alert(data.message);
+          return;
+        }
+        setValue('prevPageToken', data.prevPageToken);
+        setValue('nextPageToken', data.nextPageToken);
+        const videos = data.Videos;
+        setResultData(videos);
         alert('저장작업을 성공하였습니다.');
       },
     });
@@ -60,9 +71,9 @@ export default function SearchAutoRegister(props) {
   const toList = (read) => {
     props.upperFn(read);
   };
-  const onSelection = (rows) => {
+  function onSelection(rows) {
     console.log('rows', rows);
-  };
+  }
   return (
     <Segment>
       <Form
@@ -178,8 +189,8 @@ export default function SearchAutoRegister(props) {
           </Form.Field>
         </Form.Group>
       </Form>
-      {isLoadingYoutubeDataByChannel && (
-        <Loading active={isLoadingYoutubeDataByChannel} />
+      {isLoadingSaveVideosBySearchApi && (
+        <Loading active={isLoadingSaveVideosBySearchApi} />
       )}
       <Segment>
         <MAgGrid

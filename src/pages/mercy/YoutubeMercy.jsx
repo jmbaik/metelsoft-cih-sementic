@@ -145,8 +145,10 @@ export default function YoutubeMercy({ cr }) {
     setSearchParams({ options: options, keyword: keyword });
   };
 
-  const { isLoading, data, isError, error } =
-    useFetchYoutubeMercy(searchParams);
+  const { isLoading, data, isError, error } = useFetchYoutubeMercy(
+    searchParams,
+    crud
+  );
   console.log(searchParams);
 
   if (isLoading) return <h3>Loading...</h3>;

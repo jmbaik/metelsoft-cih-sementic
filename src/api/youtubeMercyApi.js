@@ -2,9 +2,9 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import apiFetch from '../bundle/axios';
 import { CKeys } from '../bundle/constants';
 
-export const useFetchYoutubeMercy = (p) => {
+export const useFetchYoutubeMercy = (p, crud = 'r') => {
   const { isLoading, data, isError, error } = useQuery({
-    queryKey: ['youtube/mercy', p],
+    queryKey: ['youtube/mercy', p, crud],
     // get방식일 경우 async인자에 params 인자를 넣어면 안된다.
     queryFn: async () => {
       const response = await apiFetch.get(CKeys.apiFetchUrl.mercy, {

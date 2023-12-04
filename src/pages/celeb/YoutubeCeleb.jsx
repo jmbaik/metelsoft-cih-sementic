@@ -145,8 +145,10 @@ export default function YoutubeCeleb({ cr }) {
     setSearchParams({ options: options, keyword: keyword });
   };
 
-  const { isLoading, data, isError, error } =
-    useFetchYoutubeCeleb(searchParams);
+  const { isLoading, data, isError, error } = useFetchYoutubeCeleb(
+    searchParams,
+    crud
+  );
   console.log(searchParams);
 
   if (isLoading) return <h3>Loading...</h3>;

@@ -5,6 +5,141 @@ import MAgGrid from '../../components/MAgGrid';
 import ShortsCcmRegister from './ShortsCcmRegister';
 import { useFetchYoutubeCcm } from '../../api/shortsCcmApi';
 
+export default function ShortsCcm({ cr }) {
+  const [crud, setCrud] = useState('r');
+  const [editParams, setEditParams] = useState({});
+
+  const fnSub = (read) => {
+    if (read === 'r') setEditParams({});
+    setCrud(read);
+  };
+
+  useEffect(() => {
+    if (cr === 'r') {
+      setCrud('r');
+    }
+  }, [cr]);
+
+  function doubleClicked(param) {
+    setEditParams(param);
+    setCrud('e');
+    console.log(param);
+  }
+  /* search */
+  const [options, setOptions] = useState('time');
+  const [keyword, setKeyword] = useState('');
+
+  const [searchParams, setSearchParams] = useState({
+    options: 'time',
+    keyword: '',
+  });
+
+  const searchHandleChange = (e, { value }) => {
+    setSearchParams(setOptions(value));
+  };
+  // console.log(searchParams);
+  const searchKeywordChange = (e, { value }) => {
+    setKeyword(value);
+  };
+
+  const search = () => {
+    if (options !== 'time' && keyword === '') {
+      alert('Keyword 입력하여 주세요');
+      return;
+    }
+    setSearchParams({ options: options, keyword: keyword });
+  };
+
+  const { isLoading, data, isError, error } = useFetchYoutubeCcm(
+    searchParams,
+    crud
+  );
+  console.log(searchParams);
+
+  if (isLoading) return <h3>Loading...</h3>;
+  if (isError) return <h3>{error.message}</h3>;
+  return (
+    <Container fluid>
+      <MBreadcrumb first={'Home'} second={'Youtube'} third={'Ccmrity'} />
+      <Header as="h2" dividing>
+        나의 성장 - Shorts CCM
+      </Header>
+      <Form>
+        <Form.Group inline>
+          {crud === 'r' && (
+            <>
+              <Form.Radio
+                size="small"
+                label="Recent 50th"
+                value="time"
+                checked={options === 'time'}
+                onChange={searchHandleChange}
+              />
+              <Form.Radio
+                size="mini"
+                label="Title"
+                value="title"
+                checked={options === 'title'}
+                onChange={searchHandleChange}
+              />
+              <Form.Radio
+                size="mini"
+                label="VID"
+                value="vid"
+                checked={options === 'vid'}
+                onChange={searchHandleChange}
+              />
+              <Form.Input
+                name="keyword"
+                size="mini"
+                width={3}
+                onChange={searchKeywordChange}
+                disabled={options === 'time' ? true : false}
+              />
+              <Form.Button
+                size="tiny"
+                icon="search"
+                content="조회"
+                labelPosition="left"
+                onClick={search}
+              />
+            </>
+          )}
+          <Form.Button
+            size="tiny"
+            content={crud === 'r' ? '등록' : '목록'}
+            icon={crud === 'r' ? 'right arrow' : 'left arrow'}
+            labelPosition={crud === 'r' ? 'right' : 'left'}
+            onClick={() => {
+              if (crud === 'r') {
+                setCrud('c');
+              } else {
+                setCrud('r');
+              }
+            }}
+          />
+        </Form.Group>
+      </Form>
+      {crud === 'r' && (
+        <Segment>
+          <MAgGrid
+            columns={columns}
+            rows={data}
+            width={'100%'}
+            height={'77vh'}
+            rowHeight={70}
+            onDoubleClicked={doubleClicked}
+            isAutoSizeColumn={false}
+          />
+        </Segment>
+      )}
+      {(crud === 'c' || crud === 'e') && (
+        <ShortsCcmRegister upperFn={fnSub} params={editParams} crud={crud} />
+      )}
+    </Container>
+  );
+}
+
 const columns = [
   {
     field: 'thumbnailDefault',
@@ -99,135 +234,3 @@ const columns = [
     width: 80,
   },
 ];
-
-export default function ShortsCcm({ cr }) {
-  const [crud, setCrud] = useState('r');
-  const [editParams, setEditParams] = useState({});
-
-  const fnSub = (read) => {
-    if (read === 'r') setEditParams({});
-    setCrud(read);
-  };
-
-  useEffect(() => {
-    if (cr === 'r') {
-      setCrud('r');
-    }
-  }, [cr]);
-
-  function doubleClicked(param) {
-    setEditParams(param);
-    setCrud('e');
-    console.log(param);
-  }
-  /* search */
-  const [options, setOptions] = useState('time');
-  const [keyword, setKeyword] = useState('');
-
-  const [searchParams, setSearchParams] = useState({
-    options: 'time',
-    keyword: '',
-  });
-
-  const searchHandleChange = (e, { value }) => {
-    setSearchParams(setOptions(value));
-  };
-  // console.log(searchParams);
-  const searchKeywordChange = (e, { value }) => {
-    setKeyword(value);
-  };
-
-  const search = () => {
-    if (options !== 'time' && keyword === '') {
-      alert('Keyword 입력하여 주세요');
-      return;
-    }
-    setSearchParams({ options: options, keyword: keyword });
-  };
-
-  const { isLoading, data, isError, error } = useFetchYoutubeCcm(searchParams);
-  console.log(searchParams);
-
-  if (isLoading) return <h3>Loading...</h3>;
-  if (isError) return <h3>{error.message}</h3>;
-  return (
-    <Container fluid>
-      <MBreadcrumb first={'Home'} second={'Youtube'} third={'Ccmrity'} />
-      <Header as="h2" dividing>
-        나의 성장 - Shorts CCM
-      </Header>
-      <Form>
-        <Form.Group inline>
-          {crud === 'r' && (
-            <>
-              <Form.Radio
-                size="small"
-                label="Recent 50th"
-                value="time"
-                checked={options === 'time'}
-                onChange={searchHandleChange}
-              />
-              <Form.Radio
-                size="mini"
-                label="Title"
-                value="title"
-                checked={options === 'title'}
-                onChange={searchHandleChange}
-              />
-              <Form.Radio
-                size="mini"
-                label="VID"
-                value="vid"
-                checked={options === 'vid'}
-                onChange={searchHandleChange}
-              />
-              <Form.Input
-                name="keyword"
-                size="mini"
-                width={3}
-                onChange={searchKeywordChange}
-                disabled={options === 'time' ? true : false}
-              />
-              <Form.Button
-                size="tiny"
-                icon="search"
-                content="조회"
-                labelPosition="left"
-                onClick={search}
-              />
-            </>
-          )}
-          <Form.Button
-            size="tiny"
-            content={crud === 'r' ? '등록' : '목록'}
-            icon={crud === 'r' ? 'right arrow' : 'left arrow'}
-            labelPosition={crud === 'r' ? 'right' : 'left'}
-            onClick={() => {
-              if (crud === 'r') {
-                setCrud('c');
-              } else {
-                setCrud('r');
-              }
-            }}
-          />
-        </Form.Group>
-      </Form>
-      {crud === 'r' && (
-        <Segment>
-          <MAgGrid
-            columns={columns}
-            rows={data}
-            width={'100%'}
-            height={'77vh'}
-            rowHeight={70}
-            onDoubleClicked={doubleClicked}
-            isAutoSizeColumn={false}
-          />
-        </Segment>
-      )}
-      {(crud === 'c' || crud === 'e') && (
-        <ShortsCcmRegister upperFn={fnSub} params={editParams} crud={crud} />
-      )}
-    </Container>
-  );
-}

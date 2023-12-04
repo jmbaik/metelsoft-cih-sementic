@@ -68,3 +68,48 @@ export const useDeleteYoutubePastor = () => {
   });
   return { mutateDeleteYoutubePastor, isLoadingDeleteYoutubePastor };
 };
+
+export const useDeleteVideos = () => {
+  const QueryClient = useQueryClient();
+  const { mutate: mutateDeleteVideos, isLoading: isLoadingDeleteVideos } =
+    useMutation({
+      mutationFn: async (params) => {
+        const response = await apiFetch.post(
+          '/youtube-data/delete-videos',
+          params
+        );
+        return response.data.result;
+      },
+      onSuccess: (result) => {
+        if (result.category === 'pastor') {
+          QueryClient.invalidateQueries({
+            queryKey: ['youtube/pastor'],
+          });
+        }
+        if (result.category === 'celeb') {
+          QueryClient.invalidateQueries({
+            queryKey: ['youtube/celeb'],
+          });
+        }
+        if (result.category === 'sermon') {
+          QueryClient.invalidateQueries({
+            queryKey: ['youtube/sermon'],
+          });
+        }
+        if (result.category === 'mercy') {
+          QueryClient.invalidateQueries({
+            queryKey: ['youtube/mercy'],
+          });
+        }
+        if (result.category === 'ccm') {
+          QueryClient.invalidateQueries({
+            queryKey: ['youtube/ccm'],
+          });
+        }
+      },
+      onError: (err) => {
+        console.log(err);
+      },
+    });
+  return { mutateDeleteVideos, isLoadingDeleteVideos };
+};

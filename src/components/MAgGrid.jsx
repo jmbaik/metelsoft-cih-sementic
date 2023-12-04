@@ -38,14 +38,10 @@ export default function MAgGrid({
     [onDoubleClicked]
   );
 
-  const onSelectionChanged = useCallback(
-    (e) => {
-      onSelection(e.api.getSelectedRows());
-    },
-    [onSelection]
-  );
-
-  console.log('smallMenu', smallMenu);
+  const onSelectionChanged = useCallback(() => {
+    const rows = gridRef.current.api.getSelectedRows();
+    onSelection(rows);
+  }, [onSelection]);
 
   return (
     <div style={{ height: height, width: width }}>
@@ -85,10 +81,10 @@ export default function MAgGrid({
             rowSelection="multiple"
             onFirstDataRendered={onFirstDataRendered}
             onRowDoubleClicked={onRowDoubleClicked}
-            {...(onSelection
-              ? { onSelectionChanged: { onSelectionChanged } }
-              : {})}
-            // onSelectionChanged={onSelectionChanged}
+            // {...(onSelection
+            //   ? { onSelectionChanged: { onSelectionChanged } }
+            //   : {})}
+            onSelectionChanged={onSelection ? onSelectionChanged : null}
             {...(rowHeight ? { rowHeight: rowHeight } : {})}
           ></AgGridReact>
         </div>

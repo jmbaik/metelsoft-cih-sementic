@@ -45,22 +45,24 @@ export default function YoutubePastor({ cr }) {
 
   const searchHandleChange = (e, { value }) => {
     setOptions(value);
-    setSearchParams({ ...searchParams, options: options, keyword: '' });
+    setSearchParams({ ...searchParams, options: options });
   };
   const searchKeywordChange = (e, { value }) => {
     setKeyword(value);
   };
 
   const search = () => {
-    if (options !== 'time' && keyword === '') {
+    if (options !== 'time' && options !== 'all' && keyword === '') {
       alert('Keyword 입력하여 주세요');
       return;
     }
     setSearchParams({ options: options, keyword: keyword });
   };
 
-  const { isLoading, data, isError, error, refetch } =
-    useFetchYoutubePastor(searchParams);
+  const { isLoading, data, isError, error, refetch } = useFetchYoutubePastor(
+    searchParams,
+    crud
+  );
 
   const [deleteRows, setDeleteRows] = useState([]);
   const onSelection = (rows) => {
@@ -100,21 +102,28 @@ export default function YoutubePastor({ cr }) {
             <>
               <Form.Radio
                 size="small"
-                label="Recent 50th"
+                label="최근 50개"
                 value="time"
                 checked={options === 'time'}
                 onChange={searchHandleChange}
               />
               <Form.Radio
+                size="small"
+                label="전체"
+                value="all"
+                checked={options === 'all'}
+                onChange={searchHandleChange}
+              />
+              <Form.Radio
                 size="mini"
-                label="Name"
+                label="성명"
                 value="name"
                 checked={options === 'name'}
                 onChange={searchHandleChange}
               />
               <Form.Radio
                 size="mini"
-                label="Title"
+                label="제목"
                 value="title"
                 checked={options === 'title'}
                 onChange={searchHandleChange}
@@ -130,8 +139,11 @@ export default function YoutubePastor({ cr }) {
                 <Input
                   name="keyword"
                   size="small"
+                  style={{ width: 200 }}
                   onChange={searchKeywordChange}
-                  disabled={options === 'time' ? true : false}
+                  disabled={
+                    options === 'time' || options === 'all' ? true : false
+                  }
                 />
               </Form.Field>
               <Form.Button

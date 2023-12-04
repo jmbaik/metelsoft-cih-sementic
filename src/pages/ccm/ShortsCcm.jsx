@@ -4,6 +4,7 @@ import MBreadcrumb from '../../components/MBreadcrumb';
 import MAgGrid from '../../components/MAgGrid';
 import ShortsCcmRegister from './ShortsCcmRegister';
 import { useFetchYoutubeCcm } from '../../api/shortsCcmApi';
+import { useDeleteVideos } from '../../api/youtubeDataApi';
 
 export default function ShortsCcm({ cr }) {
   const [crud, setCrud] = useState('r');
@@ -35,7 +36,8 @@ export default function ShortsCcm({ cr }) {
   });
 
   const searchHandleChange = (e, { value }) => {
-    setSearchParams(setOptions(value));
+    setOptions(value);
+    setSearchParams({ ...searchParams, options: options });
   };
   // console.log(searchParams);
   const searchKeywordChange = (e, { value }) => {
@@ -43,18 +45,40 @@ export default function ShortsCcm({ cr }) {
   };
 
   const search = () => {
-    if (options !== 'time' && keyword === '') {
+    if (options !== 'time' && options !== 'all' && keyword === '') {
       alert('Keyword 입력하여 주세요');
       return;
     }
     setSearchParams({ options: options, keyword: keyword });
   };
 
-  const { isLoading, data, isError, error } = useFetchYoutubeCcm(
+  const { isLoading, data, isError, error, refetch } = useFetchYoutubeCcm(
     searchParams,
     crud
   );
-  console.log(searchParams);
+
+  const [deleteRows, setDeleteRows] = useState([]);
+  const onSelection = (rows) => {
+    setDeleteRows(rows);
+  };
+
+  const { mutateDeleteVideos } = useDeleteVideos();
+  const deleteVideos = () => {
+    if (deleteRows.length === 0) {
+      alert('삭제할 영상이 없습니다.');
+      return;
+    }
+    const req = {
+      category: 'ccm',
+      videos: deleteRows,
+    };
+    mutateDeleteVideos(req, {
+      onSuccess: (result) => {
+        alert('삭제작업을 완료하였습니다.');
+        refetch();
+      },
+    });
+  };
 
   if (isLoading) return <h3>Loading...</h3>;
   if (isError) return <h3>{error.message}</h3>;
@@ -70,14 +94,21 @@ export default function ShortsCcm({ cr }) {
             <>
               <Form.Radio
                 size="small"
-                label="Recent 50th"
+                label="최근 50개"
                 value="time"
                 checked={options === 'time'}
                 onChange={searchHandleChange}
               />
               <Form.Radio
+                size="small"
+                label="전체"
+                value="all"
+                checked={options === 'all'}
+                onChange={searchHandleChange}
+              />
+              <Form.Radio
                 size="mini"
-                label="Title"
+                label="제목"
                 value="title"
                 checked={options === 'title'}
                 onChange={searchHandleChange}
@@ -91,10 +122,12 @@ export default function ShortsCcm({ cr }) {
               />
               <Form.Input
                 name="keyword"
-                size="mini"
-                width={3}
+                size="small"
+                style={{ width: 200 }}
                 onChange={searchKeywordChange}
-                disabled={options === 'time' ? true : false}
+                disabled={
+                  options === 'time' || options === 'all' ? true : false
+                }
               />
               <Form.Button
                 size="tiny"
@@ -118,6 +151,12 @@ export default function ShortsCcm({ cr }) {
               }
             }}
           />
+          <Form.Button
+            size="tiny"
+            content="데이터삭제"
+            color="red"
+            onClick={deleteVideos}
+          />
         </Form.Group>
       </Form>
       {crud === 'r' && (
@@ -130,6 +169,7 @@ export default function ShortsCcm({ cr }) {
             rowHeight={70}
             onDoubleClicked={doubleClicked}
             isAutoSizeColumn={false}
+            onSelection={onSelection}
           />
         </Segment>
       )}
@@ -141,6 +181,12 @@ export default function ShortsCcm({ cr }) {
 }
 
 const columns = [
+  {
+    field: 'check',
+    width: 30,
+    headerCheckboxSelection: false,
+    checkboxSelection: true,
+  },
   {
     field: 'thumbnailDefault',
     headerName: 'Thumbnail',
@@ -192,7 +238,7 @@ const columns = [
   {
     field: 'channelTitle',
     headerName: '출처',
-    width: 120,
+    width: 150,
     sortable: true,
   },
   {

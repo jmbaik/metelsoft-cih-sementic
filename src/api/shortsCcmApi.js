@@ -3,7 +3,7 @@ import apiFetch from '../bundle/axios';
 import { CKeys } from '../bundle/constants';
 
 export const useFetchYoutubeCcm = (p, crud = 'r') => {
-  const { isLoading, data, isError, error } = useQuery({
+  const { isLoading, data, isError, error, refetch } = useQuery({
     queryKey: ['youtube/ccm', p, crud],
     // get방식일 경우 async인자에 params 인자를 넣어면 안된다.
     queryFn: async () => {
@@ -18,7 +18,7 @@ export const useFetchYoutubeCcm = (p, crud = 'r') => {
     keepPreviousData: true,
     enabled: !!p,
   });
-  return { data, isLoading, isError, error };
+  return { data, isLoading, isError, error, refetch };
 };
 
 export const useSaveYoutubeCcm = () => {

@@ -2,8 +2,6 @@ import React, { useCallback, useRef, useState } from 'react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import { AgGridReact } from 'ag-grid-react';
-import { useRecoilValue } from 'recoil';
-import { smallMenuState } from '../atoms/GlobalState';
 
 export default function MAgGrid({
   rows,
@@ -15,8 +13,6 @@ export default function MAgGrid({
   onSelection,
   isAutoSizeColumn = false,
 }) {
-  const smallMenu = useRecoilValue(smallMenuState);
-
   const gridRef = useRef();
 
   const onFirstDataRendered = useCallback(() => {
@@ -53,10 +49,10 @@ export default function MAgGrid({
           <input
             type="text"
             id="filter-text-box"
-            placeholder="Search any words ..."
+            placeholder="찾고자 하는 단어를 입력하여 주세요"
             onInput={onFilterTextBoxChanged}
             style={{
-              width: '300px',
+              width: '380px',
               height: '24px',
               borderColor: 'rgba(34,36,38,.15)',
               borderWidth: '1px',

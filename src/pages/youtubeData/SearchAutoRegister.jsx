@@ -24,6 +24,9 @@ export default function SearchAutoRegister(props) {
       channelId: props.params.channelId,
       prevPageToken: '',
       nextPageToken: '',
+      q: '',
+      order: 'viewCount',
+      duration: 'everything',
     },
   });
   const { errors } = formState;
@@ -45,6 +48,7 @@ export default function SearchAutoRegister(props) {
       prevPageToken: '',
       userId: user.uid,
     };
+    console.log('submit req data', reqData);
     mutateSaveVideosBySearchApi(reqData, {
       onSuccess: (data) => {
         const result = data.result;
@@ -126,7 +130,7 @@ export default function SearchAutoRegister(props) {
         </Form.Group>
         <Form.Group>
           <Form.Input
-            style={{ width: 200 }}
+            style={{ width: 100 }}
             type="text"
             name="prevPageToken"
             size="small"
@@ -135,7 +139,7 @@ export default function SearchAutoRegister(props) {
             {...register('prevPageToken')}
           />
           <Form.Input
-            style={{ width: 200 }}
+            style={{ width: 100 }}
             type="text"
             name="nextPageToken"
             size="small"
@@ -143,6 +147,36 @@ export default function SearchAutoRegister(props) {
             readOnly
             {...register('nextPageToken')}
           />
+          <Form.Field style={{ width: 150 }}>
+            <MSelect
+              isLabel={false}
+              control={control}
+              data={[
+                { key: '', value: '', text: '-선택' },
+                { key: 'everything', value: 'everything', text: 'Everything' },
+                { key: 'short', value: 'short', text: 'Shorts' },
+              ]}
+              name="duration"
+              required={false}
+            />
+          </Form.Field>
+          <Form.Field style={{ width: 200 }}>
+            <MSelect
+              isLabel={false}
+              control={control}
+              data={[
+                { key: '', value: '', text: '-선택' },
+                { key: 'date', value: 'date', text: 'date' },
+                { key: 'rating', value: 'rating', text: 'rating' },
+                { key: 'viewCount', value: 'viewCount', text: 'viewCount' },
+                { key: 'relevance', value: 'relevance', text: 'relevance' },
+                { key: 'title', value: 'title', text: 'title' },
+                { key: 'videoCount', value: 'videoCount', text: 'videoCount' },
+              ]}
+              name="order"
+              required={false}
+            />
+          </Form.Field>
           <Form.Input
             style={{ width: 300 }}
             type="text"
@@ -150,25 +184,14 @@ export default function SearchAutoRegister(props) {
             size="small"
             icon="search"
             iconPosition="left"
-            placeholder="찾기 키워드를 반드시 입력하여 주세요"
-            {...register('q', { required: 'q 필수 항목' })}
+            placeholder="키워드를 입력"
+            {...register('q')}
             error={!!errors?.q}
           />
           <Form.Field style={{ width: '50px' }}>
             <Button type="submit" primary icon>
               <Icon name="cloud download" />
             </Button>
-          </Form.Field>
-          <Form.Field>
-            <Button
-              size="small"
-              color="red"
-              icon="delete"
-              content="삭제"
-              onClick={(e) => {
-                e.preventDefault();
-              }}
-            />
           </Form.Field>
         </Form.Group>
       </Form>
@@ -184,7 +207,6 @@ export default function SearchAutoRegister(props) {
           rowHeight={70}
           onDoubleClicked={() => {}}
           isAutoSizeColumn={false}
-          onSelection={onSelection}
         />
       </Segment>
     </Segment>
@@ -192,12 +214,6 @@ export default function SearchAutoRegister(props) {
 }
 
 const columns = [
-  {
-    field: 'check',
-    width: 30,
-    headerCheckboxSelection: true,
-    checkboxSelection: true,
-  },
   {
     field: 'thumbnailDefault',
     headerName: 'Thumbnail',
@@ -260,7 +276,7 @@ const columns = [
   {
     field: 'channelTitle',
     headerName: '출처',
-    width: 120,
+    width: 180,
     sortable: true,
   },
   {

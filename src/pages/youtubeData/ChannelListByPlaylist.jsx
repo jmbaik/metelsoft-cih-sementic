@@ -1,13 +1,11 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useFetchOriginVid } from '../../api/youtubeVideo';
-import { useCallback } from 'react';
 import MBreadcrumb from '../../components/MBreadcrumb';
 import { Header, Segment } from 'semantic-ui-react';
 import MAgGrid from '../../components/MAgGrid';
-import SearchAutoRegister from './SearchAutoRegister';
+import AutoRegisterPlayListItems from './AutoRegisterPlayListItems';
 
-export default function ChannelListBySearch() {
+export default function ChannelListByPlaylist() {
   const [crud, setCrud] = useState('r');
   const [editParams, setEditParams] = useState({});
   const fnSub = (read) => {
@@ -24,7 +22,7 @@ export default function ChannelListBySearch() {
     <>
       <MBreadcrumb first={'Home'} second={'Youtube'} third={'Channel List'} />
       <Header as="h2" dividing>
-        Search 자동 등록&nbsp;&nbsp;
+        재생목록 자동 영상 등록 &nbsp;&nbsp;
         <span style={{ fontSize: 14 }}>
           {crud === 'e' && ` [채널 : ${editParams.channelTitle}]`}
         </span>
@@ -41,7 +39,11 @@ export default function ChannelListBySearch() {
         </Segment>
       )}
       {(crud === 'c' || crud === 'e') && (
-        <SearchAutoRegister upperFn={fnSub} params={editParams} crud={crud} />
+        <AutoRegisterPlayListItems
+          upperFn={fnSub}
+          params={editParams}
+          crud={crud}
+        />
       )}
     </>
   );

@@ -1,17 +1,20 @@
 import React from 'react';
-import { useRecoilValue } from 'recoil';
-import { Button, Form, Icon, Image, Segment } from 'semantic-ui-react';
-import { useFetchPastor } from '../../api/commonCodeApi';
-import { adminUserState } from '../../atoms/adminUserState';
 import { useState } from 'react';
+import { Button, Form, Icon, Image, Segment } from 'semantic-ui-react';
+import { adminUserState } from '../../atoms/adminUserState';
+import { useRecoilValue } from 'recoil';
+import { useFetchPastor } from '../../api/commonCodeApi';
 import { useForm } from 'react-hook-form';
+import {
+  useSaveVideosByPlaylistId,
+  useSaveVideosBySearchApi,
+} from './MetelYoutubeApi';
 import MSelect from '../../components/MSelect';
 import MAutocomplete from '../../components/MAutocomplete';
 import Loading from '../../components/Loading';
 import MAgGrid from '../../components/MAgGrid';
-import { useSaveVideosBySearchApi } from './MetelYoutubeApi';
 
-export default function SearchAutoRegister(props) {
+export default function AutoRegisterPlayListItems(props) {
   const [resultData, setResultData] = useState([]);
 
   const user = useRecoilValue(adminUserState);
@@ -24,15 +27,13 @@ export default function SearchAutoRegister(props) {
       channelId: props.params.channelId,
       prevPageToken: '',
       nextPageToken: '',
-      q: '',
-      order: 'viewCount',
-      duration: 'everything',
+      playlistId: '',
     },
   });
   const { errors } = formState;
 
-  const { mutateSaveVideosBySearchApi, isLoadingSaveVideosBySearchApi } =
-    useSaveVideosBySearchApi();
+  const { mutateSaveVideosByPlaylistId, isLoadingSaveVideosByPlaylistId } =
+    useSaveVideosByPlaylistId();
 
   const onSubmit = async (data) => {
     const _category = data.category;
@@ -49,7 +50,7 @@ export default function SearchAutoRegister(props) {
       userId: user.uid,
     };
     console.log('submit req data', reqData);
-    mutateSaveVideosBySearchApi(reqData, {
+    mutateSaveVideosByPlaylistId(reqData, {
       onSuccess: (data) => {
         const result = data.result;
         if (result === 'error') {
@@ -95,7 +96,7 @@ export default function SearchAutoRegister(props) {
             name="channelId"
             placeholder="Channel Id"
             readOnly
-            style={{ width: 300 }}
+            style={{ width: 250 }}
             {...register('channelId', { required: 'channelId 필수 항목' })}
             error={!!errors?.channelId}
           />
@@ -128,7 +129,7 @@ export default function SearchAutoRegister(props) {
         </Form.Group>
         <Form.Group>
           <Form.Input
-            style={{ width: 100 }}
+            style={{ width: 150 }}
             type="text"
             name="prevPageToken"
             size="small"
@@ -137,7 +138,7 @@ export default function SearchAutoRegister(props) {
             {...register('prevPageToken')}
           />
           <Form.Input
-            style={{ width: 100 }}
+            style={{ width: 150 }}
             type="text"
             name="nextPageToken"
             size="small"
@@ -145,46 +146,16 @@ export default function SearchAutoRegister(props) {
             readOnly
             {...register('nextPageToken')}
           />
-          <Form.Field style={{ width: 150 }}>
-            <MSelect
-              isLabel={false}
-              control={control}
-              data={[
-                { key: '', value: '', text: '-선택' },
-                { key: 'everything', value: 'everything', text: 'Everything' },
-                { key: 'short', value: 'short', text: 'Shorts' },
-              ]}
-              name="duration"
-              required={false}
-            />
-          </Form.Field>
-          <Form.Field style={{ width: 200 }}>
-            <MSelect
-              isLabel={false}
-              control={control}
-              data={[
-                { key: '', value: '', text: '-선택' },
-                { key: 'date', value: 'date', text: 'date' },
-                { key: 'rating', value: 'rating', text: 'rating' },
-                { key: 'viewCount', value: 'viewCount', text: 'viewCount' },
-                { key: 'relevance', value: 'relevance', text: 'relevance' },
-                { key: 'title', value: 'title', text: 'title' },
-                { key: 'videoCount', value: 'videoCount', text: 'videoCount' },
-              ]}
-              name="order"
-              required={false}
-            />
-          </Form.Field>
           <Form.Input
-            style={{ width: 300 }}
+            style={{ width: 380 }}
             type="text"
-            name="q"
+            name="playlistId"
             size="small"
-            icon="search"
+            icon="list alternate outline"
             iconPosition="left"
-            placeholder="키워드를 입력"
-            {...register('q')}
-            error={!!errors?.q}
+            placeholder="플레이리스트 아이디를 입려하여 주세요"
+            {...register('playlistId')}
+            error={!!errors?.playlistId}
           />
           <Form.Field style={{ width: '50px' }}>
             <Button type="submit" icon size="small">
@@ -193,8 +164,8 @@ export default function SearchAutoRegister(props) {
           </Form.Field>
         </Form.Group>
       </Form>
-      {isLoadingSaveVideosBySearchApi && (
-        <Loading active={isLoadingSaveVideosBySearchApi} />
+      {isLoadingSaveVideosByPlaylistId && (
+        <Loading active={isLoadingSaveVideosByPlaylistId} />
       )}
       <Segment>
         <MAgGrid

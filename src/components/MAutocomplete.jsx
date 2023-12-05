@@ -30,7 +30,7 @@ export default function MAutocomplete({
       getOptionLabel={labelFunc}
       getOptionValue={(x) => x[val]}
       styles={customStyles}
-      placeholder="목사님 선택"
+      placeholder={placeHolder}
       {...(placeHolder ? { placeholder: placeHolder } : {})}
     />
   );

@@ -64,7 +64,10 @@ export default function ChannelList() {
     <>
       <MBreadcrumb first={'Home'} second={'Youtube'} third={'Channel List'} />
       <Header as="h2" dividing>
-        Channel 영상 자동 등록
+        Channel 영상 자동 등록&nbsp;&nbsp;
+        <span style={{ fontSize: 14 }}>
+          {crud === 'e' && ` [채널 : ${editParams.channelTitle}]`}
+        </span>
       </Header>
       {crud === 'r' && (
         <Segment>

@@ -85,3 +85,25 @@ export const useSaveVideosBySearchApi = () => {
   });
   return { mutateSaveVideosBySearchApi, isLoadingSaveVideosBySearchApi };
 };
+
+export const useSaveVideosByPlaylistId = () => {
+  const {
+    mutate: mutateSaveVideosByPlaylistId,
+    isLoading: isLoadingSaveVideosByPlaylistId,
+  } = useMutation({
+    mutationFn: async (params) => {
+      const response = await apiFetch.post(
+        CKeys.apiQueryKey.saveFetchVideosByPlaylistId,
+        params
+      );
+      return response.data.result;
+    },
+    onSuccess: (data) => {
+      console.log('youtube data by playlistId ', data);
+    },
+    onError: (err) => {
+      console.log(err);
+    },
+  });
+  return { mutateSaveVideosByPlaylistId, isLoadingSaveVideosByPlaylistId };
+};

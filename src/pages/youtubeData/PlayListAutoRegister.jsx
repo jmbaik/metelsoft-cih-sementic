@@ -118,7 +118,7 @@ export default function PlayListAutoRegister(props) {
             />
           </Form.Field>
           <Form.Field style={{ width: '50px' }}>
-            <Button type="submit" icon>
+            <Button type="submit" icon size="small">
               <Icon name="cloud download" />
             </Button>
           </Form.Field>

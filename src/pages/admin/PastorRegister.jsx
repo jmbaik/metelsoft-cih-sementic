@@ -64,7 +64,7 @@ export default function PastorRegister(props) {
 
   if (savePastorLoading) return <h3>save process Loading...</h3>;
   return (
-    <Segment>
+    <Segment style={{ width: 900 }}>
       <Form onSubmit={handleSubmit(onSubmit)} noValidate>
         <Form.Group widths="equal">
           <Form.Field>
@@ -74,6 +74,7 @@ export default function PastorRegister(props) {
               data={churchData || []}
               val="churchCode"
               name="churchCode"
+              placeHolder="교회를 선택하여 주세요"
               labelFunc={(x) => x.name}
             />
           </Form.Field>

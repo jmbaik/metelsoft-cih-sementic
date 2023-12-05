@@ -54,7 +54,7 @@ export default function ChurchRegister(props) {
 
   if (saveChurchLoading) return <h3>save process Loading...</h3>;
   return (
-    <Segment>
+    <Segment style={{ width: 900 }}>
       <Form onSubmit={handleSubmit(onSubmit)} noValidate>
         <Form.Group widths="equal">
           <Form.Field>
@@ -64,6 +64,7 @@ export default function ChurchRegister(props) {
               data={areaData || []}
               val="aliasCode"
               name="areaCode"
+              placeHolder="지역코드를 선택하여 주세요"
               labelFunc={(x) => x.name}
             />
           </Form.Field>

@@ -4,8 +4,183 @@ import { useFetchYoutubeMercy } from '../../api/youtubeMercyApi';
 import MBreadcrumb from '../../components/MBreadcrumb';
 import MAgGrid from '../../components/MAgGrid';
 import YoutubeMercyRegister from './YoutubeMercyRegister';
+import { useDeleteVideos } from '../../api/youtubeDataApi';
+
+export default function YoutubeMercy({ cr }) {
+  const [crud, setCrud] = useState('r');
+  const [editParams, setEditParams] = useState({});
+
+  const fnSub = (read) => {
+    if (read === 'r') setEditParams({});
+    setCrud(read);
+  };
+
+  useEffect(() => {
+    if (cr === 'r') {
+      setCrud('r');
+    }
+  }, [cr]);
+
+  function doubleClicked(param) {
+    setEditParams(param);
+    setCrud('e');
+    console.log(param);
+  }
+  /* search */
+  const [options, setOptions] = useState('time');
+  const [keyword, setKeyword] = useState('');
+
+  const [searchParams, setSearchParams] = useState({
+    options: 'time',
+    keyword: '',
+  });
+
+  const searchHandleChange = (e, { value }) => {
+    setOptions(value);
+    setSearchParams({ ...searchParams, options: options });
+  };
+  // console.log(searchParams);
+  const searchKeywordChange = (e, { value }) => {
+    setKeyword(value);
+  };
+
+  const search = () => {
+    if (options !== 'time' && keyword === '') {
+      alert('Keyword 입력하여 주세요');
+      return;
+    }
+    setSearchParams({ options: options, keyword: keyword });
+  };
+
+  const { isLoading, data, isError, error, refetch } = useFetchYoutubeMercy(
+    searchParams,
+    crud
+  );
+
+  const [deleteRows, setDeleteRows] = useState([]);
+  const onSelection = (rows) => {
+    setDeleteRows(rows);
+  };
+
+  const { mutateDeleteVideos } = useDeleteVideos();
+  const deleteVideos = () => {
+    if (deleteRows.length === 0) {
+      alert('삭제할 영상이 없습니다.');
+      return;
+    }
+    const req = {
+      category: 'sermon',
+      videos: deleteRows,
+    };
+    mutateDeleteVideos(req, {
+      onSuccess: (result) => {
+        alert('삭제작업을 완료하였습니다.');
+        refetch();
+      },
+    });
+  };
+
+  if (isLoading) return <h3>Loading...</h3>;
+  if (isError) return <h3>{error.message}</h3>;
+  return (
+    <Container fluid>
+      <MBreadcrumb first={'Home'} second={'Youtube'} third={'Mercy'} />
+      <Header as="h2" dividing>
+        긍휼 사역 영상
+      </Header>
+      <Form>
+        <Form.Group inline>
+          {crud === 'r' && (
+            <>
+              <Form.Radio
+                size="small"
+                label="Recent 50th"
+                value="time"
+                checked={options === 'time'}
+                onChange={searchHandleChange}
+              />
+              <Form.Radio
+                size="small"
+                label="전체"
+                value="all"
+                checked={options === 'all'}
+                onChange={searchHandleChange}
+              />
+              <Form.Radio
+                size="mini"
+                label="Title"
+                value="title"
+                checked={options === 'title'}
+                onChange={searchHandleChange}
+              />
+              <Form.Radio
+                size="mini"
+                label="VID"
+                value="vid"
+                checked={options === 'vid'}
+                onChange={searchHandleChange}
+              />
+              <Form.Input
+                name="keyword"
+                size="mini"
+                width={3}
+                onChange={searchKeywordChange}
+                disabled={
+                  options === 'time' || options === 'all' ? true : false
+                }
+              />
+              <Form.Button
+                size="tiny"
+                icon="search"
+                content="조회"
+                labelPosition="left"
+                onClick={search}
+              />
+            </>
+          )}
+          <Form.Button
+            size="tiny"
+            content={crud === 'r' ? '등록' : '목록'}
+            icon={crud === 'r' ? 'right arrow' : 'left arrow'}
+            labelPosition={crud === 'r' ? 'right' : 'left'}
+            onClick={() => {
+              if (crud === 'r') {
+                setCrud('c');
+              } else {
+                setCrud('r');
+              }
+            }}
+          />
+        </Form.Group>
+      </Form>
+      {crud === 'r' && (
+        <Segment>
+          <MAgGrid
+            columns={columns}
+            rows={data}
+            width={'100%'}
+            height={'77vh'}
+            rowHeight={70}
+            onDoubleClicked={doubleClicked}
+            isAutoSizeColumn={false}
+            onSelection={onSelection}
+          />
+        </Segment>
+      )}
+      {(crud === 'c' || crud === 'e') && (
+        <YoutubeMercyRegister upperFn={fnSub} params={editParams} crud={crud} />
+      )}
+    </Container>
+  );
+}
 
 const columns = [
+  {
+    field: 'check',
+    width: 30,
+    headerCheckboxSelection: false,
+    checkboxSelection: true,
+  },
   {
     field: 'thumbnailDefault',
     headerName: 'Thumbnail',
@@ -99,138 +274,3 @@ const columns = [
     width: 80,
   },
 ];
-
-export default function YoutubeMercy({ cr }) {
-  const [crud, setCrud] = useState('r');
-  const [editParams, setEditParams] = useState({});
-
-  const fnSub = (read) => {
-    if (read === 'r') setEditParams({});
-    setCrud(read);
-  };
-
-  useEffect(() => {
-    if (cr === 'r') {
-      setCrud('r');
-    }
-  }, [cr]);
-
-  function doubleClicked(param) {
-    setEditParams(param);
-    setCrud('e');
-    console.log(param);
-  }
-  /* search */
-  const [options, setOptions] = useState('time');
-  const [keyword, setKeyword] = useState('');
-
-  const [searchParams, setSearchParams] = useState({
-    options: 'time',
-    keyword: '',
-  });
-
-  const searchHandleChange = (e, { value }) => {
-    setSearchParams(setOptions(value));
-  };
-  // console.log(searchParams);
-  const searchKeywordChange = (e, { value }) => {
-    setKeyword(value);
-  };
-
-  const search = () => {
-    if (options !== 'time' && keyword === '') {
-      alert('Keyword 입력하여 주세요');
-      return;
-    }
-    setSearchParams({ options: options, keyword: keyword });
-  };
-
-  const { isLoading, data, isError, error } = useFetchYoutubeMercy(
-    searchParams,
-    crud
-  );
-  console.log(searchParams);
-
-  if (isLoading) return <h3>Loading...</h3>;
-  if (isError) return <h3>{error.message}</h3>;
-  return (
-    <Container fluid>
-      <MBreadcrumb first={'Home'} second={'Youtube'} third={'Mercy'} />
-      <Header as="h2" dividing>
-        긍휼 사역 영상
-      </Header>
-      <Form>
-        <Form.Group inline>
-          {crud === 'r' && (
-            <>
-              <Form.Radio
-                size="small"
-                label="Recent 50th"
-                value="time"
-                checked={options === 'time'}
-                onChange={searchHandleChange}
-              />
-              <Form.Radio
-                size="mini"
-                label="Title"
-                value="title"
-                checked={options === 'title'}
-                onChange={searchHandleChange}
-              />
-              <Form.Radio
-                size="mini"
-                label="VID"
-                value="vid"
-                checked={options === 'vid'}
-                onChange={searchHandleChange}
-              />
-              <Form.Input
-                name="keyword"
-                size="mini"
-                width={3}
-                onChange={searchKeywordChange}
-                disabled={options === 'time' ? true : false}
-              />
-              <Form.Button
-                size="tiny"
-                icon="search"
-                content="조회"
-                labelPosition="left"
-                onClick={search}
-              />
-            </>
-          )}
-          <Form.Button
-            size="tiny"
-            content={crud === 'r' ? '등록' : '목록'}
-            icon={crud === 'r' ? 'right arrow' : 'left arrow'}
-            labelPosition={crud === 'r' ? 'right' : 'left'}
-            onClick={() => {
-              if (crud === 'r') {
-                setCrud('c');
-              } else {
-                setCrud('r');
-              }
-            }}
-          />
-        </Form.Group>
-      </Form>
-      {crud === 'r' && (
-        <Segment>
-          <MAgGrid
-            columns={columns}
-            rows={data}
-            width={'100%'}
-            height={'77vh'}
-            rowHeight={70}
-            onDoubleClicked={doubleClicked}
-            isAutoSizeColumn={false}
-          />
-        </Segment>
-      )}
-      {(crud === 'c' || crud === 'e') && (
-        <YoutubeMercyRegister upperFn={fnSub} params={editParams} crud={crud} />
-      )}
-    </Container>
-  );
-}

@@ -10,6 +10,7 @@ import MAutocomplete from '../../components/MAutocomplete';
 import Loading from '../../components/Loading';
 import MAgGrid from '../../components/MAgGrid';
 import { useSaveVideosBySearchApi } from './MetelYoutubeApi';
+import MSelectCategory from '../../components/MSelectCategory';
 
 export default function SearchAutoRegister(props) {
   const [resultData, setResultData] = useState([]);
@@ -100,20 +101,7 @@ export default function SearchAutoRegister(props) {
             error={!!errors?.channelId}
           />
           <Form.Field style={{ width: 200 }}>
-            <MSelect
-              isLabel={false}
-              control={control}
-              data={[
-                { key: '', value: '', text: '-선택' },
-                { key: 'pastor', value: 'pastor', text: '목사님영상' },
-                { key: 'celeb', value: 'celeb', text: '유명인간증영상' },
-                { key: 'sermon', value: 'sermon', text: '강해설교영상' },
-                { key: 'mercy', value: 'mercy', text: '긍휼사역영상' },
-                { key: 'ccm', value: 'ccm', text: '나의성장 CCM' },
-              ]}
-              name="category"
-              required={true}
-            />
+            <MSelectCategory control={control} />
           </Form.Field>
           <Form.Field style={{ width: '300px' }}>
             <MAutocomplete

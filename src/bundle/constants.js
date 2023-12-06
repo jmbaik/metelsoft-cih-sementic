@@ -17,6 +17,7 @@ export const CKeys = {
     sermon: '/youtube/sermon',
     mercy: '/youtube/mercy',
     ccm: '/youtube/ccm',
+    faith: '/youtube/faith',
   },
   apiFetchUrl: {
     youtubePastor: '/youtube/pastor',
@@ -24,6 +25,7 @@ export const CKeys = {
     sermon: '/youtube/sermon',
     mercy: '/youtube/mercy',
     ccm: '/youtube/ccm',
+    faith: '/youtube/faith',
   },
   thumnailDefault: {
     width: 120,

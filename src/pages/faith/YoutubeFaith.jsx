@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Container, Form, Header, Image, Segment } from 'semantic-ui-react';
-import { useFetchYoutubeMercy } from '../../api/youtubeMercyApi';
+import { useFetchYoutubeFaith } from '../../api/youtubeFaithApi';
 import MBreadcrumb from '../../components/MBreadcrumb';
 import MAgGrid from '../../components/MAgGrid';
-import YoutubeMercyRegister from './YoutubeMercyRegister';
+import YoutubeFaithRegister from './YoutubeFaithRegister';
 import { useDeleteVideos } from '../../api/youtubeDataApi';
 
-export default function YoutubeMercy({ cr }) {
+export default function YoutubeFaith({ cr }) {
   const [crud, setCrud] = useState('r');
   const [editParams, setEditParams] = useState({});
 
@@ -49,10 +49,10 @@ export default function YoutubeMercy({ cr }) {
       alert('Keyword 입력하여 주세요');
       return;
     }
-    setSearchParams({ options: options, keyword: keyword, crud: crud });
+    setSearchParams({ options: options, keyword: keyword });
   };
 
-  const { isLoading, data, isError, error, refetch } = useFetchYoutubeMercy(
+  const { isLoading, data, isError, error, refetch } = useFetchYoutubeFaith(
     searchParams,
     crud
   );
@@ -69,7 +69,7 @@ export default function YoutubeMercy({ cr }) {
       return;
     }
     const req = {
-      category: 'mercy',
+      category: 'faith',
       videos: deleteRows,
     };
     mutateDeleteVideos(req, {
@@ -84,9 +84,9 @@ export default function YoutubeMercy({ cr }) {
   if (isError) return <h3>{error.message}</h3>;
   return (
     <Container fluid>
-      <MBreadcrumb first={'Home'} second={'Youtube'} third={'Mercy'} />
+      <MBreadcrumb first={'Home'} second={'Youtube'} third={'Faith'} />
       <Header as="h2" dividing>
-        긍휼 사역 영상
+        삶과 신앙 영상
       </Header>
       <Form>
         <Form.Group inline>
@@ -122,8 +122,8 @@ export default function YoutubeMercy({ cr }) {
               />
               <Form.Input
                 name="keyword"
-                size="mini"
-                width={3}
+                size="small"
+                style={{ width: 200 }}
                 onChange={searchKeywordChange}
                 disabled={
                   options === 'time' || options === 'all' ? true : false
@@ -174,7 +174,7 @@ export default function YoutubeMercy({ cr }) {
         </Segment>
       )}
       {(crud === 'c' || crud === 'e') && (
-        <YoutubeMercyRegister upperFn={fnSub} params={editParams} crud={crud} />
+        <YoutubeFaithRegister upperFn={fnSub} params={editParams} crud={crud} />
       )}
     </Container>
   );
@@ -238,7 +238,7 @@ const columns = [
   {
     field: 'channelTitle',
     headerName: '출처',
-    width: 120,
+    width: 150,
     sortable: true,
   },
   {

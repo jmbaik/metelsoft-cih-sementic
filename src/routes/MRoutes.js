@@ -23,6 +23,7 @@ import YoutubeMercy from '../pages/mercy/YoutubeMercy';
 import ShortsCcm from '../pages/ccm/ShortsCcm';
 import ChannelListBySearch from '../pages/youtubeData/ChannelListBySearch';
 import ChannelListByPlaylist from '../pages/youtubeData/ChannelListByPlaylist';
+import YoutubeFaith from '../pages/faith/YoutubeFaith';
 
 export default function MRoutes() {
   return (
@@ -46,6 +47,7 @@ export default function MRoutes() {
           <Route path="/youtube-sermon" element={<YoutubeSermon cr="r" />} />
           <Route path="/youtube-mercy" element={<YoutubeMercy cr="r" />} />
           <Route path="/youtube-ccm" element={<ShortsCcm cr="r" />} />
+          <Route path="/youtube-faith" element={<YoutubeFaith cr="r" />} />
           <Route path="/area-code" element={<AreaCode />} />
           <Route path="/church-code" element={<ChurchList cr="r" />} />
           <Route path="/pastor-code" element={<PastorList cr="r" />} />

@@ -19,6 +19,7 @@ import { SiYoutubeshorts } from 'react-icons/si';
 import { BsDatabaseDown } from 'react-icons/bs';
 import { MdOutlineYoutubeSearchedFor } from 'react-icons/md';
 import { MdOutlinePlaylistPlay } from 'react-icons/md';
+import { GiLifeBar } from 'react-icons/gi';
 
 export default function SideMenu(props) {
   const [activeItem, setActiveItem] = useRecoilState(activeSideItemState);
@@ -175,6 +176,14 @@ function MenuItems(props) {
               title="목사님 영상"
               to="/youtube-pastor"
               icon={<IoIosPersonAdd size={20} />}
+              selected={props.activeItem}
+              setSelected={props.setActiveItem}
+              smallMenu={props.smallMenu}
+            />
+            <SideMenuItem
+              title="삶과 신앙"
+              to="/youtube-faith"
+              icon={<GiLifeBar size={20} />}
               selected={props.activeItem}
               setSelected={props.setActiveItem}
               smallMenu={props.smallMenu}

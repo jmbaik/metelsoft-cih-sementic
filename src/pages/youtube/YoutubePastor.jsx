@@ -276,14 +276,14 @@ const columns = [
   {
     field: 'createYmd',
     headerName: '생성일',
-    width: 100,
+    width: 120,
     sortable: true,
   },
 
   {
     field: 'publishedAt',
     headerName: 'publishedAt',
-    width: 200,
+    width: 230,
     sortable: true,
   },
 

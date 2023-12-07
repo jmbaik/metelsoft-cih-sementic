@@ -53,7 +53,7 @@ const columns = [
   {
     field: 'updDt',
     headerName: '최종수정일',
-    width: 150,
+    width: 180,
     sortable: true,
   },
 ];

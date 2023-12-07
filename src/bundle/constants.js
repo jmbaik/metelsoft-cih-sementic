@@ -12,6 +12,8 @@ export const CKeys = {
     saveFetchVideosByChannel: '/youtube-data/save-videos-by-channel',
     saveFetchVideosBySearch: '/youtube-data/save-videos-by-search',
     saveFetchVideosByPlaylistId: '/youtube-data/save-videos-by-playlist',
+    saveFetchAllVideosByPlaylistId: '/youtube-data/save-all-videos-by-playlist',
+    updateShortsByPlaylistId: '/youtube-data/update-shorts-by-playlist',
     youtubePastor: '/youtube/pastor',
     celeb: '/youtube/celeb',
     sermon: '/youtube/sermon',

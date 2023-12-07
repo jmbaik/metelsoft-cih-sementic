@@ -107,3 +107,53 @@ export const useSaveVideosByPlaylistId = () => {
   });
   return { mutateSaveVideosByPlaylistId, isLoadingSaveVideosByPlaylistId };
 };
+
+export const useSaveFetchAllVideosByPlaylistId = () => {
+  const {
+    mutate: mutateSaveFetchAllVideosByPlaylistId,
+    isLoading: isLoadingSaveFetchAllVideosByPlaylistId,
+  } = useMutation({
+    mutationFn: async (params) => {
+      const response = await apiFetch.post(
+        CKeys.apiQueryKey.saveFetchAllVideosByPlaylistId,
+        params
+      );
+      return response.data.result;
+    },
+    onSuccess: (data) => {
+      console.log('youtube data by playlistId ', data);
+    },
+    onError: (err) => {
+      console.log(err);
+    },
+  });
+  return {
+    mutateSaveFetchAllVideosByPlaylistId,
+    isLoadingSaveFetchAllVideosByPlaylistId,
+  };
+};
+
+export const useUpdateShorsByPlaylistId = () => {
+  const {
+    mutate: mutateUpdateShorsByPlaylistId,
+    isLoading: isLoadingUpdateShorsByPlaylistId,
+  } = useMutation({
+    mutationFn: async (params) => {
+      const response = await apiFetch.post(
+        CKeys.apiQueryKey.updateShortsByPlaylistId,
+        params
+      );
+      return response.data.result;
+    },
+    onSuccess: (data) => {
+      console.log('youtube data by playlistId ', data);
+    },
+    onError: (err) => {
+      console.log(err);
+    },
+  });
+  return {
+    mutateUpdateShorsByPlaylistId,
+    isLoadingUpdateShorsByPlaylistId,
+  };
+};

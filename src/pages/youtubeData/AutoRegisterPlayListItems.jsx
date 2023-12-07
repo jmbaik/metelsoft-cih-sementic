@@ -6,35 +6,46 @@ import { useRecoilValue } from 'recoil';
 import { useFetchPastor } from '../../api/commonCodeApi';
 import { useForm } from 'react-hook-form';
 import {
+  useSaveFetchAllVideosByPlaylistId,
   useSaveVideosByPlaylistId,
-  useSaveVideosBySearchApi,
+  useUpdateShorsByPlaylistId,
 } from './MetelYoutubeApi';
-import MSelect from '../../components/MSelect';
 import MAutocomplete from '../../components/MAutocomplete';
 import Loading from '../../components/Loading';
 import MAgGrid from '../../components/MAgGrid';
 import MSelectCategory from '../../components/MSelectCategory';
+import MSelect from '../../components/MSelect';
 
 export default function AutoRegisterPlayListItems(props) {
   const [resultData, setResultData] = useState([]);
 
   const user = useRecoilValue(adminUserState);
   const { data: pastorData } = useFetchPastor(props.crud);
-  const { register, handleSubmit, setValue, formState, control } = useForm({
-    mode: 'onSubmit',
-    defaultValues: {
-      category: '',
-      pastorCode: '',
-      channelId: props.params.channelId,
-      prevPageToken: '',
-      nextPageToken: '',
-      playlistId: '',
-    },
-  });
+  const { register, handleSubmit, setValue, getValues, formState, control } =
+    useForm({
+      mode: 'onSubmit',
+      defaultValues: {
+        category: '',
+        pastorCode: '',
+        channelId: props.params.channelId,
+        prevPageToken: '',
+        nextPageToken: '',
+        playlistId: '',
+        shortsCheckYn: 'N',
+      },
+    });
   const { errors } = formState;
 
   const { mutateSaveVideosByPlaylistId, isLoadingSaveVideosByPlaylistId } =
     useSaveVideosByPlaylistId();
+
+  const {
+    mutateSaveFetchAllVideosByPlaylistId,
+    isLoadingSaveFetchAllVideosByPlaylistId,
+  } = useSaveFetchAllVideosByPlaylistId();
+
+  const { mutateUpdateShorsByPlaylistId, isLoadingUpdateShorsByPlaylistId } =
+    useUpdateShorsByPlaylistId();
 
   const onSubmit = async (data) => {
     const _category = data.category;
@@ -66,6 +77,64 @@ export default function AutoRegisterPlayListItems(props) {
       },
     });
   };
+
+  const onSaveAll = async (data) => {
+    const _category = data.category;
+    const _pastorCode = data.pastorCode;
+    if (_category === 'pastor') {
+      if (_pastorCode.length === 0) {
+        alert('목사님을 선택하여 주세요');
+        return;
+      }
+    }
+    const reqData = {
+      ...data,
+      userId: user.uid,
+    };
+    console.log('submit all data req', reqData);
+    mutateSaveFetchAllVideosByPlaylistId(reqData, {
+      onSuccess: (data) => {
+        const result = data.result;
+        if (result === 'error') {
+          alert(data.message);
+          return;
+        }
+        const videos = data.videos;
+        setResultData(videos);
+        alert('저장작업을 성공하였습니다.');
+      },
+    });
+  };
+
+  // const onUpdateShorts = async () => {
+  //   const data = getValues();
+  //   const _category = data.category;
+  //   const _pastorCode = data.pastorCode;
+  //   if (_category === 'pastor') {
+  //     if (_pastorCode.length === 0) {
+  //       alert('목사님을 선택하여 주세요');
+  //       return;
+  //     }
+  //   }
+  //   const reqData = {
+  //     ...data,
+  //     userId: user.uid,
+  //   };
+  //   console.log('submit update shorts req', reqData);
+  //   mutateUpdateShorsByPlaylistId(reqData, {
+  //     onSuccess: (data) => {
+  //       const result = data.result;
+  //       if (result === 'error') {
+  //         alert(data.message);
+  //         return;
+  //       }
+  //       const videos = data.videos;
+  //       setResultData(videos);
+  //       alert('저장작업을 성공하였습니다.');
+  //     },
+  //   });
+  // };
+
   const toList = (read) => {
     props.upperFn(read);
   };
@@ -135,7 +204,7 @@ export default function AutoRegisterPlayListItems(props) {
             {...register('nextPageToken')}
           />
           <Form.Input
-            style={{ width: 380 }}
+            style={{ width: 300 }}
             type="text"
             name="playlistId"
             size="small"
@@ -145,16 +214,50 @@ export default function AutoRegisterPlayListItems(props) {
             {...register('playlistId')}
             error={!!errors?.playlistId}
           />
+          <Form.Field style={{ width: 200 }}>
+            <MSelect
+              control={control}
+              data={[
+                { key: 'N', value: 'N', text: 'Shorts 체크 안함' },
+                { key: 'Y', value: 'Y', text: 'Shorts 무조건 체크' },
+              ]}
+              placeHolder="Shorts Check 여부"
+              name="shortsCheckYn"
+              isLabel={false}
+            />
+          </Form.Field>
           <Form.Field style={{ width: '50px' }}>
             <Button type="submit" icon size="small">
-              <Icon name="cloud download" />
+              <Icon name="arrow alternate circle right" />
             </Button>
           </Form.Field>
+          <Form.Button
+            primary
+            content="전체저장"
+            size="small"
+            onClick={handleSubmit(onSaveAll)}
+          />
+          {/* <Form.Button
+            secondary
+            content="Shorts Update"
+            size="small"
+            onClick={(e) => {
+              e.preventDefault();
+              onUpdateShorts();
+            }}
+          /> */}
         </Form.Group>
       </Form>
       {isLoadingSaveVideosByPlaylistId && (
         <Loading active={isLoadingSaveVideosByPlaylistId} />
       )}
+      {isLoadingSaveFetchAllVideosByPlaylistId && (
+        <Loading active={isLoadingSaveFetchAllVideosByPlaylistId} />
+      )}
+      {isLoadingUpdateShorsByPlaylistId && (
+        <Loading active={isLoadingUpdateShorsByPlaylistId} />
+      )}
+
       <Segment>
         <MAgGrid
           columns={columns}

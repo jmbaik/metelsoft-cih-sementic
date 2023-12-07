@@ -75,6 +75,7 @@ const columns = [
   {
     field: 'itemsCount',
     headerName: '등록영상갯수',
+    width: 300,
   },
   {
     field: 'updId',

@@ -222,6 +222,12 @@ const columns = [
     },
   },
   {
+    field: 'mainYn',
+    headerName: 'Main',
+    sortable: true,
+    width: 70,
+  },
+  {
     field: 'title',
     headerName: '제목',
     sortable: true,

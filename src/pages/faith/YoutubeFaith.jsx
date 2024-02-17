@@ -13,6 +13,8 @@ export default function YoutubeFaith({ cr }) {
   const fnSub = (read) => {
     if (read === 'r') setEditParams({});
     setCrud(read);
+    console.log('refetch-------');
+    refetch();
   };
 
   useEffect(() => {
@@ -216,6 +218,12 @@ const columns = [
         </a>
       );
     },
+  },
+  {
+    field: 'mainYn',
+    headerName: 'Main',
+    sortable: true,
+    width: 70,
   },
   {
     field: 'title',

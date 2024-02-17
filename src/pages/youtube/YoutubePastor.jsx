@@ -246,7 +246,13 @@ const columns = [
   {
     field: 'pastorName',
     headerName: '목사',
-    width: 100,
+    width: 80,
+    sortable: true,
+  },
+  {
+    field: 'mainYn',
+    headerName: 'Main',
+    width: 70,
     sortable: true,
   },
   {

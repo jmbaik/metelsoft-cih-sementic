@@ -4,7 +4,7 @@ import { CKeys } from '../bundle/constants';
 
 export const useFetchYoutubeMercy = (p, crud = 'r') => {
   const { isLoading, data, isError, error, refetch } = useQuery({
-    queryKey: ['youtube/mercy', p, crud],
+    queryKey: [CKeys.apiQueryKey.mercy, p, crud],
     // get방식일 경우 async인자에 params 인자를 넣어면 안된다.
     queryFn: async () => {
       const response = await apiFetch.get(CKeys.apiFetchUrl.mercy, {

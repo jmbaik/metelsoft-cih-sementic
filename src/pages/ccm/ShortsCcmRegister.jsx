@@ -46,6 +46,7 @@ export default function ShortsCcmRegister(props) {
       description: '',
       userId: '',
       updDt: '',
+      mainYn: 'N',
     },
   });
   const { errors } = formState;
@@ -238,7 +239,18 @@ export default function ShortsCcmRegister(props) {
                 <Icon name="search" />
               </Button>
             </Form.Field>
-
+            <Form.Field>
+              <MSelect
+                control={control}
+                data={[
+                  { key: 'N', value: 'N', text: 'Main 영상 아님' },
+                  { key: 'Y', value: 'Y', text: 'Main 영상' },
+                ]}
+                name="mainYn"
+                isLabel={false}
+                required={true}
+              />
+            </Form.Field>
             <Form.Field>
               <Button
                 primary

@@ -1,5 +1,6 @@
 export const CKeys = {
-  YOUTUBE_API_KEY: 'AIzaSyCU6n82YBGi7Q3cFPScwqUtPI4q3-oxDXc',
+  // YOUTUBE_API_KEY: 'AIzaSyBiLtIN06CXDJ_fsp6mEe0njdZ_tfUbBsU',
+  YOUTUBE_API_KEY: `${process.env.REACT_APP_API_KEY}`,
   youtubeDataQueryKey: {
     search: 'youtube-data-api/search',
   },
